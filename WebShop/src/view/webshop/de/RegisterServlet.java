@@ -12,4 +12,12 @@ public class RegisterServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.sendRedirect("register.jsp");
 	}
+
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String username = req.getParameter("username");
+		String password = req.getParameter("password");
+
+		resp.sendRedirect("index");
+	}
 }

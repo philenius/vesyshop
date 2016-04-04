@@ -18,8 +18,8 @@
 			<div class="navbar-header"></div>
 			<form class="navbar-form navbar-right" role="search" action="login" method="POST">
 				<div class="form-group">
-					<input type="text" class="form-control" placeholder="user">
-					<input type="password" class="form-control" placeholder="password">
+					<input type="text" class="form-control" placeholder="user" name="user" autofocus>
+					<input type="password" class="form-control" placeholder="password" name="password">
 				</div>
 				<button type="submit" class="btn btn-default">Login</button>
 			</form>

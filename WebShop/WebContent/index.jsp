@@ -15,14 +15,24 @@
 <body>
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
-			<div class="navbar-header"></div>
-			<form class="navbar-form navbar-right" role="search" action="login" method="POST">
-				<div class="form-group">
-					<input type="text" class="form-control" placeholder="user" name="user" autofocus>
-					<input type="password" class="form-control" placeholder="password" name="password">
-				</div>
-				<button type="submit" class="btn btn-default">Login</button>
-			</form>
+			<div class="navbar-header">
+				<a class="navbar-brand" href="${pageContext.request.contextPath}">HOME
+				</a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li><a href="${pageContext.request.contextPath}/register">Register</a></li>
+				<li><a href="${pageContext.request.contextPath}/cart"> Shopping cart <span class="badge badge-primary">4</span></a></li>
+			</ul>
+			<div class="navbar-right">
+				<form class="navbar-form" role="search" action="login" method="POST">
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="user"
+							name="user" autofocus> <input type="password"
+							class="form-control" placeholder="password" name="password">
+					</div>
+					<button type="submit" class="btn btn-default">Login</button>
+				</form>
+			</div>
 		</div>
 	</nav>
 	<div class="container">
@@ -62,7 +72,13 @@
 							<td>12,50 €</td>
 							<td>Yoghurt, Beer</td>
 							<td>
-								<button class="btn btn-success">Add to cart</button>
+								<form action="addToCart" method="POST">
+									<div class="form-group">
+										<input type="text" value="0" name="id"
+											class="form-control hidden">
+										<button class="btn btn-success">Add to cart</button>
+									</div>
+								</form>
 							</td>
 						</tr>
 						<tr>
@@ -74,7 +90,13 @@
 							<td>56 €</td>
 							<td>Parmesan, Nutella</td>
 							<td>
-								<button class="btn btn-success">Add to cart</button>
+								<form action="addToCart" method="POST">
+									<div class="form-group">
+										<input type="text" value="1" name="id"
+											class="form-control hidden">
+										<button class="btn btn-success">Add to cart</button>
+									</div>
+								</form>
 							</td>
 						</tr>
 					</tbody>
@@ -94,6 +116,9 @@
 		</div>
 	</footer>
 	<!-- end container -->
-	<script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
 </body>
 </html>

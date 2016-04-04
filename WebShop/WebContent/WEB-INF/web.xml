@@ -381,4 +381,9 @@
 		<servlet-name>RegisterServlet</servlet-name>
 		<url-pattern>/register</url-pattern>
 	</servlet-mapping>
+	
+ 	<error-page>
+		<location>/error.jsp</location>
+	</error-page>
+ 	
 </web-app>

@@ -1,6 +1,7 @@
 package Kuchen;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.bson.Document;
 
@@ -9,7 +10,7 @@ import com.mongodb.client.MongoDatabase;
 import Connection.Manager;
 import Helper.DbNames;
 
-public class Cacke {
+public class Cake {
 	
 	final int id;
 	public Recept recept;
@@ -21,7 +22,7 @@ public class Cacke {
 	protected String collection;
 	protected Document doc;
 	
-	public Cacke(int _id, Recept _recept, String _name){
+	public Cake(int _id, Recept _recept, String _name){
 		this.id = _id;
 		this.recept = _recept;
 		this.name = _name;
@@ -55,6 +56,11 @@ public class Cacke {
 		.append(DbNames.fieldCacke.Recept.toString(), this.recept.id);
 		
 		return doc;
+	}
+	
+	public static List<Cake> getAll(){
+		return null;
+		
 	}
 	
 	public void update(){

@@ -1,9 +1,11 @@
 package Kuchen;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.bson.Document;
 
+import com.mongodb.Block;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoDatabase;
 
@@ -17,7 +19,7 @@ public class Ingridient {
 	BigDecimal price;
 	int quantity;
 	String quantityType;
-	String collection;
+	static String collection;
 	
 	Document doc;
 	
@@ -32,7 +34,59 @@ public class Ingridient {
 		collection = DbNames.collection.INGRIDIENTS.toString();
 	}
 	
-	public Document getDocument(){
+	public Ingridient(int _id, String _name,  String _price, String _quantity, 
+			String _quantityType){
+		
+		this.id = _id;
+		this.name = _name;
+		this.price = new BigDecimal(_price);
+		this.quantity = Integer.parseInt(_quantity);
+		this.quantityType = _quantityType;
+		
+		collection = DbNames.collection.INGRIDIENTS.toString();
+	}
+
+	
+	public static Ingridient getById(int _id, MongoDatabase db){
+		FindIterable<Document> ings;
+		ings = Manager.getDocuments(collection, "id", _id, db);
+		
+		Document one = ings.first();
+		
+		Ingridient found = DocToIngridient(one);
+		
+		return found;
+	}
+	
+	private static Ingridient DocToIngridient(Document doc){
+		Ingridient found = new Ingridient(
+				doc.getInteger(DbNames.fieldIngridient.id.toString(),1), 
+				doc.getString(DbNames.fieldIngridient.name.toString()), 
+				doc.getString(DbNames.fieldIngridient.price.toString()), 
+				doc.getString(DbNames.fieldIngridient.quantity.toString()), 
+				doc.getString(DbNames.fieldIngridient.quantityType.toString()));
+		
+		return found;
+	}
+	
+	public static List<Ingridient> getAll(MongoDatabase db){
+		
+		FindIterable<Document> ings = Manager.getAllDocuments(collection, db);
+		
+		List<Ingridient> allIng = null;
+		
+		ings.forEach(new Block<Document>() {
+		    @Override
+		    public void apply(final Document document) {
+		    	allIng.add(DocToIngridient(document));
+		    }
+		});
+		
+		return allIng;
+		
+	}
+	
+ 	public Document getDocument(){
 		doc = new Document(DbNames.fieldIngridient.id.toString(), 		 this.id)
 				.append(DbNames.fieldIngridient.name.toString(), 		 this.name)
 				.append(DbNames.fieldIngridient.price.toString(), 		 this.price)

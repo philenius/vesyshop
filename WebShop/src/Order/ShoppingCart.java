@@ -3,34 +3,34 @@ package Order;
 import java.math.BigDecimal;
 import java.util.List;
 
-import Kuchen.Cacke;
+import Kuchen.Cake;
 
 public class ShoppingCart {
 	protected int id;
-	public List<Cacke> cackes;
+	public List<Cake> cackes;
 	BigDecimal price;
 	
-	public ShoppingCart(List<Cacke> _cackes, int _id){
+	public ShoppingCart(List<Cake> _cackes, int _id){
 		this.cackes = _cackes;
 		this.id = _id;
 		calculatePrice();
 	}
 	
 	private void calculatePrice(){
-		for(Cacke c : cackes){
+		for(Cake c : cackes){
 			price = price.add(c.price);
 		}
 	}
 	
-	public void addCackes(List<Cacke> cs){
+	public void addCackes(List<Cake> cs){
 		this.cackes.addAll(cs);
 	}
 	
-	public void addCacke(Cacke c){
+	public void addCacke(Cake c){
 		this.cackes.add(c);
 	}
 	
-	public void removeCacke(Cacke c){
+	public void removeCacke(Cake c){
 		this.cackes.remove(c);
 	}
 	

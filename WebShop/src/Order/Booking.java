@@ -3,7 +3,7 @@ package Order;
 import java.math.BigDecimal;
 import java.util.List;
 
-import Kuchen.Cacke;
+import Kuchen.Cake;
 import Kunde.User;
 
 public class Booking {
@@ -12,7 +12,7 @@ public class Booking {
 	BigDecimal price;
 	User user;
 	Status status;
-	List<Cacke> cackes;
+	List<Cake> cackes;
 	
 	public Booking(int _id){
 		this.id = _id;

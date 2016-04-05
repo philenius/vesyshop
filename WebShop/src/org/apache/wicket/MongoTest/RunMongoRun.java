@@ -5,6 +5,8 @@ import com.mongodb.client.MongoDatabase;
 
 import Connection.Connector;
 import Connection.Manager;
+import Kuchen.Cake;
+import Kuchen.Recept;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -25,6 +27,7 @@ public class RunMongoRun {
 		
 		Connector con = new Connector();
 		database = con.getDatabase(dbName);
+		
 		
 		/*DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.ENGLISH);
 		Document doc = null;

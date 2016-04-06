@@ -13,6 +13,7 @@ import com.mongodb.client.MongoDatabase;
 
 import Connection.Manager;
 import Helper.DbNames;
+import static java.util.Arrays.asList;
 
 public class Cake {
 	
@@ -53,7 +54,7 @@ public class Cake {
 	}
 	
 	public Document getDecument(){
-		Document doc = null;
+		Document doc;
 		
 		doc = new Document(DbNames.fieldCacke.name.toString(), this.name)
 		.append(DbNames.fieldCacke.Recept.toString(), this.recept.id);
@@ -61,12 +62,12 @@ public class Cake {
 		return doc;
 	}
 	
-	private static Cake DocToCake(Document doc, MongoDatabase db){
+	public static Cake DocToCake(Document doc){
 		Cake cake;
 		
 		cake = new Cake(
 				doc.getString("id"), 
-				new Recept("2b", 12, 200, "Irgendwas", Ingridient.getAll(db)), 
+				new Recept("2b", 12, 200, "Irgendwas", asList(new Ingridient(null, "Zucker", 12, 13, "Gramm"))), //TODO
 				doc.getString(DbNames.fieldCacke.name.toString()));
 		
 		return cake;
@@ -82,7 +83,7 @@ public class Cake {
 		    @Override
 		    public void apply(final Document document) {
 		    	System.out.println(document.toString());
-		    	Cake gefunden = DocToCake(document, db);
+		    	Cake gefunden = DocToCake(document);
 		    	//System.out.println(gefunden.toString());
 		    	cakes.add(gefunden);
 		    }

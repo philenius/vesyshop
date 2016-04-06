@@ -7,11 +7,17 @@ public class DbNames {
 		INGRIDIENTS,
 		USERS,
 		ORDERS,
-		RECEPTS
+		RECEPTS,
+		CARTS
 	}
 	
 	public static enum field{
 		price,
+	}
+	
+	public static enum fieldCart{
+		price,
+		cakes
 	}
 	
 	public static enum fieldOrder{

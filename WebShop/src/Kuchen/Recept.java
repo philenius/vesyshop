@@ -107,7 +107,7 @@ public class Recept {
 		return ingridDocs;
 	}
 	
-	private static Recept DocToRecept(Document doc){
+	public static Recept DocToRecept(Document doc){
 		
 		if(doc == null){
 			return null;

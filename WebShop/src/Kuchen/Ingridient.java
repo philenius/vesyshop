@@ -72,7 +72,7 @@ public class Ingridient {
 		return found;
 	}
 	
-	private static Ingridient DocToIngridient(Document doc){
+	public static Ingridient DocToIngridient(Document doc){
 		
 		if(doc == null){
 			return null;

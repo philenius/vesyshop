@@ -5,6 +5,7 @@ import com.mongodb.client.MongoDatabase;
 
 import Connection.Connector;
 import Connection.Manager;
+import Helper.DbNames;
 import Kuchen.Cake;
 import Kuchen.Ingridient;
 import Kuchen.Recept;
@@ -22,21 +23,22 @@ public class RunMongoRun {
 
 	public static void main(String[] args) {
 
-		String dbName = "mongodb";
-		MongoDatabase database;
-		String collection = "INGRIDIENTS";
+		MongoDatabase db;
 		
 		Connector con = new Connector();
-		database = con.getDatabase(dbName);
+		db = con.getDatabase();
 		
-		Ingridient zutat = new Ingridient(001, "Zucker", 10, 20, "gram");
-		//zutat.save(database);
+		Ingridient zucker = new Ingridient(null, "zucker", 12, 13, "Gramm");
+		Recept ZitronenkuchenRezept = new Recept(null, 20, 200, "Rezept Zitronenkuchen", asList(zucker));
+		Cake ZitronenKuchen = new Cake(null, ZitronenkuchenRezept, "Zitronenkuchen");
 		
-		Ingridient gefunden = Ingridient.getById(001, database);
-		Ingridient gefunden2 = Ingridient.getById(1, database);
+		//zucker.save(db);
+		//ZitronenkuchenRezept.save(db);
+		//ZitronenKuchen.save(db);
 		
-		//System.out.println(gefunden2.toString());
-		
+		Ingridient.getAll(db);
+		Recept.getAll(db);
+		Cake.getAll(db);
 		
 	}
 

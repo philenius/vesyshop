@@ -1,6 +1,7 @@
 package Kuchen;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.Document;
@@ -14,16 +15,16 @@ import Helper.DbNames;
 
 public class Ingridient {
 	
-	final int id;
+	final String id;
 	String name;
 	BigDecimal price;
 	int quantity;
 	String quantityType;
 	static String collection = DbNames.collection.INGRIDIENTS.toString();
-	
+		
 	Document doc;
 	
-	public Ingridient(int _id, String _name, int _price, int _quantity, 
+	public Ingridient(String _id, String _name, int _price, int _quantity, 
 			String _quantityType){
 		this.id = _id;
 		this.name = _name;
@@ -32,13 +33,13 @@ public class Ingridient {
 		this.quantityType = _quantityType;
 	}
 	
-	public Ingridient(int _id, String _name,  String _price, String _quantity, 
+	public Ingridient(String _id, String _name,  String _price, int _quantity, 
 			String _quantityType){
 		
 		this.id = _id;
 		this.name = _name;
 		this.price = new BigDecimal(_price);
-		this.quantity = Integer.parseInt(_quantity);
+		this.quantity = _quantity;
 		this.quantityType = _quantityType;
 	}
 
@@ -51,7 +52,7 @@ public class Ingridient {
 		Ingridient found;
 		
 		
-		System.out.println("ehrlich jetzt?!");
+		//System.out.println("ehrlich jetzt?!");
 			
 		while(ings.iterator().hasNext()) {
 			System.out.println(ings.iterator().next().toString());
@@ -78,10 +79,10 @@ public class Ingridient {
 		}
 		
 		Ingridient found = new Ingridient(
-				doc.getInteger("id"), 
+				doc.getString("id"), 
 				doc.getString(DbNames.fieldIngridient.name.toString()), 
 				doc.getString(DbNames.fieldIngridient.price.toString()), 
-				doc.getString(DbNames.fieldIngridient.quantity.toString()), 
+				doc.getInteger(DbNames.fieldIngridient.quantity.toString()), 
 				doc.getString(DbNames.fieldIngridient.quantityType.toString()));
 		
 		return found;
@@ -90,13 +91,16 @@ public class Ingridient {
 	public static List<Ingridient> getAll(MongoDatabase db){
 		
 		FindIterable<Document> ings = Manager.getAllDocuments(collection, db);
-		
-		List<Ingridient> allIng = null;
+
+		List<Ingridient> allIng = new ArrayList<Ingridient>();;
 		
 		ings.forEach(new Block<Document>() {
 		    @Override
 		    public void apply(final Document document) {
-		    	allIng.add(DocToIngridient(document));
+		    	System.out.println(document.toString());
+		    	Ingridient gefunden = DocToIngridient(document);
+		    	System.out.println(gefunden.toString());
+		    	allIng.add(gefunden);
 		    }
 		});
 		
@@ -105,8 +109,7 @@ public class Ingridient {
 	}
 	
  	public Document getDocument(){
-		doc = new Document(DbNames.fieldIngridient.id.toString(), 		 this.id)
-				.append(DbNames.fieldIngridient.name.toString(), 		 this.name)
+		doc = new Document(DbNames.fieldIngridient.name.toString(), 	 this.name)
 				.append(DbNames.fieldIngridient.price.toString(), 		 this.price.toString())
 				.append(DbNames.fieldIngridient.quantity.toString(), 	 this.quantity)
 				.append(DbNames.fieldIngridient.quantityType.toString(), this.quantityType);

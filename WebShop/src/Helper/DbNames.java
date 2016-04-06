@@ -11,12 +11,10 @@ public class DbNames {
 	}
 	
 	public static enum field{
-		id,
 		price,
 	}
 	
 	public static enum fieldOrder{
-		id,
 		price,
 		User,
 		Status,
@@ -24,7 +22,6 @@ public class DbNames {
 	}
 	
 	public static enum fieldRecept{
-		id,
 		costs,
 		name,
 		timeToComplete,
@@ -32,7 +29,6 @@ public class DbNames {
 	}
 	
 	public static enum fieldIngridient{
-		id,
 		name,
 		price,
 		quantity,
@@ -40,7 +36,6 @@ public class DbNames {
 	}
 	
 	public static enum fieldCacke{
-		id, 
 		name, 
 		Recept,
 		price

@@ -1,10 +1,13 @@
 package Kuchen;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.Document;
 
+import com.mongodb.Block;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoDatabase;
 import static java.util.Arrays.asList;
 
@@ -13,7 +16,7 @@ import Helper.DbNames;
 
 public class Recept {
 	
-	final int id;
+	final String id;
 	int costs;
 	String name;
 	int timeToComplete;
@@ -21,7 +24,7 @@ public class Recept {
 	
 	protected Document doc;
 
-	public Recept(int _id, int _costs, int _time, String _name, List<Ingridient> _ingridients){
+	public Recept(String _id, int _costs, int _time, String _name, List<Ingridient> _ingridients){
 		this.id = _id;
 		this.costs = _costs;
 		this.timeToComplete = _time;
@@ -36,7 +39,7 @@ public class Recept {
 		
 		Manager.insertDocument(doc, collection, db);
 	}
-	
+	/*
 	public void update(MongoDatabase db){
 		
 		Document doc = getDocument();
@@ -55,7 +58,8 @@ public class Recept {
 		
 		updateIngridients(db);
 	}
-	
+	*/
+	/*
 	private void updateIngridients(MongoDatabase db){
 		
 		String collection = DbNames.collection.RECEPTS.toString();
@@ -89,10 +93,10 @@ public class Recept {
 				value, 
 				db);
 	}
-	
+	*/
 	private List<Document> getIngridDocs(){
 		
-		List<Document> ingridDocs = null;
+		List<Document> ingridDocs = new ArrayList<Document>();
 		
 		//save ids of ingridients
 		for(Ingridient i : ingridients){ 
@@ -103,15 +107,50 @@ public class Recept {
 		return ingridDocs;
 	}
 	
+	private static Recept DocToRecept(Document doc){
+		
+		if(doc == null){
+			return null;
+		}
+		
+		Recept found = new Recept(
+				doc.getString("id"), 
+				doc.getInteger(DbNames.fieldRecept.costs.toString()), 
+				doc.getInteger(DbNames.fieldRecept.timeToComplete.toString()), 
+				doc.getString(DbNames.fieldRecept.name.toString()), 
+				asList(new Ingridient("1a", "Zucker", 12, 13, "Gramm"))); //TODO
+		
+		return found;
+	}
+	
+	public static List<Recept> getAll(MongoDatabase db){
+		
+		FindIterable<Document> docs;
+		List<Recept> recepts = new ArrayList<Recept>();
+		
+		docs = Manager.getAllDocuments(DbNames.collection.RECEPTS.toString(), db);
+		
+		docs.forEach(new Block<Document>() {
+		    @Override
+		    public void apply(final Document document) {
+		    	System.out.println(document.toString());
+		    	Recept gefunden = DocToRecept(document);
+		    	System.out.println(gefunden.toString());
+		    	recepts.add(gefunden);
+		    }
+		});
+		
+		return recepts;
+	}
+	
 	public Document getDocument(){
 		
 		List<Document> ingridDocs = getIngridDocs();
 		
-		doc = new Document(DbNames.fieldRecept.id.toString(), this.id)
-				.append(DbNames.fieldRecept.name.toString(), this.name)
-				.append(DbNames.fieldRecept.timeToComplete.toString(), this.timeToComplete)
-				.append(DbNames.fieldRecept.costs.toString(), this.costs)
-				.append(DbNames.fieldRecept.Ingridients.toString(), ingridDocs);
+		doc = new Document(DbNames.fieldRecept.name.toString(), 		this.name)
+				.append(DbNames.fieldRecept.timeToComplete.toString(), 	this.timeToComplete)
+				.append(DbNames.fieldRecept.costs.toString(), 			this.costs)
+				.append(DbNames.fieldRecept.Ingridients.toString(), 	ingridDocs);
 		
 		return doc;
 	}

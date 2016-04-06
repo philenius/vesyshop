@@ -36,13 +36,14 @@ public class Manager {
 		
 		FindIterable<Document> iterable = null;
 		
-		getDocuments(collection, null, null, db);
+		iterable = getDocuments(collection, null, null, db);
 		
 		return iterable;
 	}
 	
 	public static FindIterable<Document> getDocuments(String collection, String field, 
 			int value, MongoDatabase db){
+		
 		return getDocuments(collection, field, String.valueOf(value), db);
 	}
 	
@@ -51,9 +52,11 @@ public class Manager {
 		
 		FindIterable<Document> iterable = null;
 		
+		
+		
 		try {
-			
-			if(field.equals(null) && value.equals(null)){
+			System.out.println("try to get documents...");
+			if(field == null && value == null){
 				System.out.println("Search for all documents in collection '" + collection + "'");
 				iterable = db.getCollection(collection).find();
 			} else {
@@ -106,6 +109,10 @@ public class Manager {
 		
 		long rows = result.getModifiedCount();
 		System.out.println("INFO: \t"+rows +" row(s) modified.");
+	}
+	
+	public static void deleteAllDocsIn(MongoDatabase db, String collection){
+		db.getCollection(collection).drop();
 	}
 	
 	public static void update(String collection, List<List<String>> where,

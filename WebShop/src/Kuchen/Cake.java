@@ -27,7 +27,7 @@ public class Cake {
 		this.recept = _recept;
 		this.name = _name;
 		
-		this.collection = DbNames.collection.CACKES.toString();
+		this.collection = DbNames.collection.CAKES.toString();
 		
 		calculatePrice();
 	}

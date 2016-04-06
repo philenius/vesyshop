@@ -24,6 +24,7 @@ public class Manager {
 	public static void insertDocument(Document doc, String collection, MongoDatabase db){
 		try {
 			db.getCollection(collection).insertOne(doc);
+			System.out.println("SUCCESS: \tInserted data..");
 		} catch (Exception e){
 			System.out.println("FAIL: \tInserting data went wrong.");
 			System.out.println(e);
@@ -53,8 +54,10 @@ public class Manager {
 		try {
 			
 			if(field.equals(null) && value.equals(null)){
+				System.out.println("Search for all documents in collection '" + collection + "'");
 				iterable = db.getCollection(collection).find();
 			} else {
+				System.out.println("Search for document with <" + value + "> in field <" + field +">");
 				iterable = db.getCollection(collection).find(eq(field,value));
 			}
 			

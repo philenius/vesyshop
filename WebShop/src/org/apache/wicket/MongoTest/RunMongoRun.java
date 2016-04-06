@@ -6,6 +6,7 @@ import com.mongodb.client.MongoDatabase;
 import Connection.Connector;
 import Connection.Manager;
 import Kuchen.Cake;
+import Kuchen.Ingridient;
 import Kuchen.Recept;
 
 import java.text.DateFormat;
@@ -21,51 +22,21 @@ public class RunMongoRun {
 
 	public static void main(String[] args) {
 
-		String dbName = "test";
+		String dbName = "mongodb";
 		MongoDatabase database;
-		String collection = "restaurants";
+		String collection = "INGRIDIENTS";
 		
 		Connector con = new Connector();
 		database = con.getDatabase(dbName);
 		
+		Ingridient zutat = new Ingridient(001, "Zucker", 10, 20, "gram");
+		//zutat.save(database);
 		
-		/*DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.ENGLISH);
-		Document doc = null;
-		try {
-			doc = new Document("address",
-			        new Document()
-			        .append("street", "2 Avenue")
-			        .append("zipcode", "10075")
-			        .append("building", "1480")
-			        .append("coord", asList(-73.9557413, 40.7720266)))
-			.append("borough", "Manhattan")
-			.append("cuisine", "Italian")
-			.append("grades", asList(
-			        new Document()
-			                .append("date", format.parse("2014-10-01T00:00:00Z"))
-			                .append("grade", "A")
-			                .append("score", 11),
-			        new Document()
-			                .append("date", format.parse("2014-01-16T00:00:00Z"))
-			                .append("grade", "B")
-			                .append("score", 17)))
-			.append("name", "Vella")
-			.append("restaurant_id", "41704620");
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+		Ingridient gefunden = Ingridient.getById(001, database);
+		Ingridient gefunden2 = Ingridient.getById(1, database);
 		
-		Manager.insertDocument(doc, collection, database); */
+		//System.out.println(gefunden2.toString());
 		
-		//Manager.showAllDocuments(collection, database);
-		
-		//FindIterable<Document> docs = Manager.getDocuments(collection, "address.building", "1480", database);
-		
-		Manager.update(collection, "name", "Vella", "cuisine", "FINDE", database);
-		
-		Manager.showDocuments(Manager.getDocuments(collection, "name", "Vella", database));
-		
-
 		
 	}
 

@@ -19,7 +19,7 @@ public class Ingridient {
 	BigDecimal price;
 	int quantity;
 	String quantityType;
-	static String collection;
+	static String collection = DbNames.collection.INGRIDIENTS.toString();
 	
 	Document doc;
 	
@@ -30,8 +30,6 @@ public class Ingridient {
 		this.price = new BigDecimal(_price);
 		this.quantity = _quantity;
 		this.quantityType = _quantityType;
-		
-		collection = DbNames.collection.INGRIDIENTS.toString();
 	}
 	
 	public Ingridient(int _id, String _name,  String _price, String _quantity, 
@@ -42,8 +40,6 @@ public class Ingridient {
 		this.price = new BigDecimal(_price);
 		this.quantity = Integer.parseInt(_quantity);
 		this.quantityType = _quantityType;
-		
-		collection = DbNames.collection.INGRIDIENTS.toString();
 	}
 
 	
@@ -51,16 +47,38 @@ public class Ingridient {
 		FindIterable<Document> ings;
 		ings = Manager.getDocuments(collection, "id", _id, db);
 		
-		Document one = ings.first();
+		Document one;
+		Ingridient found;
 		
-		Ingridient found = DocToIngridient(one);
+		
+		System.out.println("ehrlich jetzt?!");
+			
+		while(ings.iterator().hasNext()) {
+			System.out.println(ings.iterator().next().toString());
+		}
+
+		ings.forEach(new Block<Document>() {
+		    @Override
+		    public void apply(final Document document) {
+		    	System.out.println(document.toString());
+		    }
+		});
+		
+		one = ings.first();
+		found = DocToIngridient(one);
+	
 		
 		return found;
 	}
 	
 	private static Ingridient DocToIngridient(Document doc){
+		
+		if(doc == null){
+			return null;
+		}
+		
 		Ingridient found = new Ingridient(
-				doc.getInteger(DbNames.fieldIngridient.id.toString(),1), 
+				doc.getInteger("id"), 
 				doc.getString(DbNames.fieldIngridient.name.toString()), 
 				doc.getString(DbNames.fieldIngridient.price.toString()), 
 				doc.getString(DbNames.fieldIngridient.quantity.toString()), 
@@ -89,7 +107,7 @@ public class Ingridient {
  	public Document getDocument(){
 		doc = new Document(DbNames.fieldIngridient.id.toString(), 		 this.id)
 				.append(DbNames.fieldIngridient.name.toString(), 		 this.name)
-				.append(DbNames.fieldIngridient.price.toString(), 		 this.price)
+				.append(DbNames.fieldIngridient.price.toString(), 		 this.price.toString())
 				.append(DbNames.fieldIngridient.quantity.toString(), 	 this.quantity)
 				.append(DbNames.fieldIngridient.quantityType.toString(), this.quantityType);
 		
@@ -117,11 +135,11 @@ public class Ingridient {
 	
 	public void save(MongoDatabase db){
 		
-		FindIterable<Document> exists = Manager.getDocuments(collection, "id", this.id, db);
+		//FindIterable<Document> exists = Manager.getDocuments(collection, "id", this.id, db);
 		
-		if(exists != null){
+		//if(exists != null){
 			
-		}
+		//}
 		
 		doc = getDocument();
 		

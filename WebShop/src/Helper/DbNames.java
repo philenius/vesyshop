@@ -3,7 +3,7 @@ package Helper;
 public class DbNames {
 	
 	public static enum collection{
-		CACKES,
+		CAKES,
 		INGRIDIENTS,
 		USERS,
 		ORDERS,

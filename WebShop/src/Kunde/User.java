@@ -6,28 +6,33 @@ import java.util.List;
 import org.bson.Document;
 
 import com.mongodb.Block;
+import com.mongodb.Mongo;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoDatabase;
 
 import Connection.Manager;
 import Helper.DbNames;
 import Kuchen.Recept;
+import Order.ShoppingCart;
 
 public class User {
 	
 	protected String id;
 	protected String name;
 	protected String password;
+	public ShoppingCart cart;
 	
-	public User(String _name, String _password){
+	public User(String _name, String _password, ShoppingCart _cart){
 		this.name = _name;
 		this.password = _password;
+		this.cart = _cart;
 	}
 	
-	public User(String _id, String _name, String _password){
+	public User(String _id, String _name, String _password, ShoppingCart _cart){
 		this.name = _name;
 		this.password = _password;
 		this.id = _id;
+		this.cart = _cart;
 	}
 	
 	public boolean checkPw(String passw){
@@ -35,7 +40,9 @@ public class User {
 	}
 	
 	public Document getDocument(){
-		Document doc = new Document("name", name).append("password", password);
+		Document doc = new Document("name", name)
+				.append("password", password)
+				.append("cart", this.cart.getDocument());
 		return doc;
 	}
 	
@@ -47,14 +54,16 @@ public class User {
 	
 	
 	
-	public static User DocToUser(Document doc){
+	public static User DocToUser(Document doc, MongoDatabase db){
+		
 		return new User(doc.getString("id"),
 				doc.getString("name"),
-				doc.getString("password"));
+				doc.getString("password"),
+				ShoppingCart.docToCart((Document)doc.get("cart"), db));
 	}
 	
-	public static User DocToUser(Object doc){
-		return DocToUser((Document)doc);
+	public static User DocToUser( MongoDatabase db, Object doc){
+		return DocToUser((Document)doc, db);
 	}
 	
 	public static List<User> getAll(MongoDatabase db){
@@ -66,7 +75,7 @@ public class User {
 		    @Override
 		    public void apply(final Document document) {
 		    	System.out.println(document.toString());
-		    	User gefunden = DocToUser(document);
+		    	User gefunden = DocToUser(document, db);
 		    	users.add(gefunden);
 		    }
 		});
@@ -78,7 +87,7 @@ public class User {
 		FindIterable<Document> docs = Manager.
 				getDocuments(DbNames.collection.USERS.toString(), "id", _id, db);
 		
-		User found = DocToUser(docs.first());
+		User found = DocToUser(docs.first(), db);
 		
 		return found;
 	}
@@ -87,7 +96,7 @@ public class User {
 		FindIterable<Document> docs = Manager.
 				getDocuments(DbNames.collection.USERS.toString(), "name", _name, db);
 		
-		User found = DocToUser(docs.first());
+		User found = DocToUser(docs.first(), db);
 		
 		return found;
 		

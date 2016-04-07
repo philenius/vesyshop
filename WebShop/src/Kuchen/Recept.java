@@ -130,6 +130,7 @@ public class Recept {
 	
 	public static Recept getByName(String _name, MongoDatabase db){
 		FindIterable<Document> docs;
+		System.out.println("Suche nach " + _name + " recept");
 		docs = Manager.getDocuments(DbNames.collection.RECEPTS.toString(), DbNames.fieldRecept.name.toString(), _name, db);
 		
 		Document doc = docs.first();

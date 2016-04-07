@@ -77,7 +77,7 @@ public class Booking {
 	
 	public static Booking docToBooking(Document doc, MongoDatabase db){
 		
-		User u = User.DocToUser(doc.get(DbNames.fieldOrder.User.toString()));
+		User u = User.DocToUser(db, doc.get(DbNames.fieldOrder.User.toString()));
 		Status s = new Status(doc.getString(DbNames.fieldOrder.Status.toString()));
 		List<Cake> _cakes = new ArrayList<Cake>();
 		

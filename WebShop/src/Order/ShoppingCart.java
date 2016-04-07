@@ -22,6 +22,7 @@ public class ShoppingCart {
 	
 	public ShoppingCart(List<Cake> _cakes){
 		this.cakes = _cakes;
+		price = new BigDecimal(0);
 		calculatePrice();
 	}
 	
@@ -32,12 +33,11 @@ public class ShoppingCart {
 	}
 	
 	private void calculatePrice(){
-		/*
+		
 		for(Cake c : cakes){
 			price = price.add(c.price);
-		}*/ //TODO
-		
-		price = new BigDecimal(20);
+		}
+
 	}
 	
 	public void addCackes(List<Cake> cs){
@@ -56,7 +56,7 @@ public class ShoppingCart {
 		this.cakes.clear();
 	}
 	
-	public void save(MongoDatabase db){
+	public Document getDocument(){
 		List<Document> cakeDocs = new ArrayList<Document>();
 		
 		for(Cake c : cakes){
@@ -66,19 +66,27 @@ public class ShoppingCart {
 		Document doc = new Document("price", price.toString()).
 				append(DbNames.fieldCart.cakes.toString(),cakeDocs); 
 		
+		return doc;
+	}
+	
+	/*
+	public void save(MongoDatabase db){
+		
+		Document doc = getDocument();
+		
 		Manager.insertDocument(doc, DbNames.collection.CARTS.toString(), db);
 	}
 	
+	*/
 	
-	
-	private static ShoppingCart DocToCart(Document doc, MongoDatabase db){
+	public static ShoppingCart docToCart(Document doc, MongoDatabase db){
 		
 		List<Document> cakeDocs = (List<Document>) doc.get("cakes");
 		List<Cake> cakes = new ArrayList<Cake>();
 		
 		
 		for(Document d : cakeDocs){
-			cakes.add(Cake.DocToCake(doc, db));
+			cakes.add(Cake.DocToCake(d, db));
 		}
 		
 		ShoppingCart sc = new ShoppingCart(cakes,
@@ -88,6 +96,7 @@ public class ShoppingCart {
 		return sc;
 	}
 	
+	/*
 	public static List<ShoppingCart> getAll(MongoDatabase db){
 		List<ShoppingCart> carts = new ArrayList<ShoppingCart>();
 		
@@ -104,14 +113,14 @@ public class ShoppingCart {
 		
 		return carts;
 	}
-	
-	public static ShoppingCart getById(String _id, MongoDatabase db){
+	*/
+	/*public static ShoppingCart getById(String _id, MongoDatabase db){
 		FindIterable<Document> docs = Manager.
 				getDocuments(DbNames.collection.CARTS.toString(), "id", _id, db);
 		
-		ShoppingCart found = DocToCart(docs.first(), db);
+		ShoppingCart found = docToCart(docs.first(), db);
 		
 		return found;
-	}
+	}*/
 
 }

@@ -1,8 +1,12 @@
 package Order;
 
+import org.bson.Document;
+
+import Helper.DbNames;
+
 public class Status {
 	
-	protected int id;
+	//protected int id;
 	public enum value{
 		delivered,
 		open,
@@ -11,13 +15,11 @@ public class Status {
 	}
 	public String now;
 	
-	public Status(int _id, String val){
-		this.id = _id;
+	public Status(String val){
 		this.now = val;
 	}
 	
-	public Status(int _id, value val){
-		this.id = _id;
+	public Status(value val){
 		this.now = val.toString();
 	}
 	
@@ -27,6 +29,12 @@ public class Status {
 	
 	public void changeTo(String val){
 		this.now = val;
+	}
+	
+	public Document getDocument(){
+		Document doc = new Document(DbNames.fieldStatus.status.toString(), now);
+				
+		return doc;
 	}
 	
 

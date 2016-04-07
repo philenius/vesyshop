@@ -15,6 +15,10 @@ public class DbNames {
 		price,
 	}
 	
+	public static enum fieldStatus{
+		status
+	}
+	
 	public static enum fieldCart{
 		price,
 		cakes

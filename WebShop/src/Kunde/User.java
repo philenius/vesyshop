@@ -29,21 +29,32 @@ public class User {
 		this.password = _password;
 		this.id = _id;
 	}
+	
 	public boolean checkPw(String passw){
 		return this.password.equals(passw);
 	}
-	public void save(MongoDatabase db){
+	
+	public Document getDocument(){
 		Document doc = new Document("name", name).append("password", password);
+		return doc;
+	}
+	
+	public void save(MongoDatabase db){
+		Document doc = getDocument();
 		
 		Manager.insertDocument(doc, DbNames.collection.USERS.toString(), db);
 	}
 	
 	
 	
-	private static User DocToUser(Document doc){
+	public static User DocToUser(Document doc){
 		return new User(doc.getString("id"),
 				doc.getString("name"),
 				doc.getString("password"));
+	}
+	
+	public static User DocToUser(Object doc){
+		return DocToUser((Document)doc);
 	}
 	
 	public static List<User> getAll(MongoDatabase db){

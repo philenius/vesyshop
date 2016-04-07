@@ -10,7 +10,9 @@ import Kuchen.Cake;
 import Kuchen.Ingridient;
 import Kuchen.Recept;
 import Kunde.User;
+import Order.Booking;
 import Order.ShoppingCart;
+import Order.Status;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -42,18 +44,21 @@ public class RunMongoRun {
 		Cake ZitronenKuchen 		= new Cake(null, ZitronenkuchenRezept, "Zitronenkuchen");
 		User Phil 					= new User("Philipp","ozeanien");
 		ShoppingCart Einkaufswagen	= new ShoppingCart(asList(ZitronenKuchen));
+		Booking Bestellung			= new Booking(12, Phil, new Status(Status.value.open), asList(ZitronenKuchen));
 		
 		zucker.save(db);
 		ZitronenkuchenRezept.save(db);
 		ZitronenKuchen.save(db);
 		Einkaufswagen.save(db);
 		Phil.save(db);
+		Bestellung.save(db);
 		
 		Ingridient.getAll(db);
 		Recept.getAll(db);
 		Cake.getAll(db);
 		ShoppingCart.getAll(db);
 		User.getAll(db);
+		Bestellung.getAll(db);
 		
 	}
 

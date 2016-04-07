@@ -55,7 +55,7 @@ public class Manager {
 		
 		
 		try {
-			System.out.println("try to get documents...");
+			//System.out.println("try to get documents...");
 			if(field == null && value == null){
 				System.out.println("Search for all documents in collection '" + collection + "'");
 				iterable = db.getCollection(collection).find();

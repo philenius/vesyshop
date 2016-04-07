@@ -11,6 +11,7 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoDatabase;
 import static java.util.Arrays.asList;
 
+import Connection.Connector;
 import Connection.Manager;
 import Helper.DbNames;
 
@@ -100,17 +101,21 @@ public class Recept {
 		
 		//save ids of ingridients
 		for(Ingridient i : ingridients){ 
-			ingridDocs.add(new Document("id",i.id)
+			ingridDocs.add(new Document(DbNames.fieldIngridient.name.toString()	,i.name)
 					.append(DbNames.fieldIngridient.quantity.toString(), i.quantity));
 		}
 		
 		return ingridDocs;
 	}
 	
-	public static Recept DocToRecept(Document doc){
+	public static Recept DocToRecept(Document doc, MongoDatabase db){
 		
-		if(doc == null){
-			return null;
+		List<Document> ingriDocs = (List<Document>) doc.get(DbNames.fieldRecept.Ingridients.toString());
+		List<Ingridient> ings = new ArrayList<Ingridient>();
+		
+		for(Document d : ingriDocs){
+			String theName = d.getString("name");
+			ings.add(Ingridient.getByName(theName, db));
 		}
 		
 		Recept found = new Recept(
@@ -118,9 +123,33 @@ public class Recept {
 				doc.getInteger(DbNames.fieldRecept.costs.toString()), 
 				doc.getInteger(DbNames.fieldRecept.timeToComplete.toString()), 
 				doc.getString(DbNames.fieldRecept.name.toString()), 
-				asList(new Ingridient("1a", "Zucker", 12, 13, "Gramm"))); //TODO
+				ings); 
 		
 		return found;
+	}
+	
+	public static Recept getByName(String _name, MongoDatabase db){
+		FindIterable<Document> docs;
+		docs = Manager.getDocuments(DbNames.collection.RECEPTS.toString(), DbNames.fieldRecept.name.toString(), _name, db);
+		
+		Document doc = docs.first();
+		
+		if(doc == null){
+			System.out.println("Kein Rezept gefunden");
+		}
+				
+		return DocToRecept(doc, db);
+		
+	}
+	
+	public static Recept getById(String _id, MongoDatabase db){
+		FindIterable<Document> docs;
+		docs = Manager.getDocuments(DbNames.collection.RECEPTS.toString(), "id", _id, db);
+		
+		Document doc = docs.first();
+		
+		return DocToRecept(doc, db);
+		
 	}
 	
 	public static List<Recept> getAll(MongoDatabase db){
@@ -134,8 +163,7 @@ public class Recept {
 		    @Override
 		    public void apply(final Document document) {
 		    	System.out.println(document.toString());
-		    	Recept gefunden = DocToRecept(document);
-		    	System.out.println(gefunden.toString());
+		    	Recept gefunden = DocToRecept(document, db);
 		    	recepts.add(gefunden);
 		    }
 		});

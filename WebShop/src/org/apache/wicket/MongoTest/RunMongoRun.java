@@ -14,11 +14,6 @@ import Order.Booking;
 import Order.ShoppingCart;
 import Order.Status;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
-
 import org.bson.Document;
 
 import static java.util.Arrays.asList;
@@ -39,7 +34,7 @@ public class RunMongoRun {
 		Manager.deleteAllDocsIn(db, DbNames.collection.RECEPTS.toString());
 		Manager.deleteAllDocsIn(db, DbNames.collection.USERS.toString());
 		
-		Ingridient zucker 			= new Ingridient(null, "Zucker", 12, 13, "Gramm");
+		Ingridient zucker 			= new Ingridient(null, "Zucker", 12, 13, DbNames.QuantityType.gram.toString());
 		Recept ZitronenkuchenRezept = new Recept(null, 20, 200, "Rezept Zitronenkuchen", asList(zucker));
 		Cake ZitronenKuchen 		= new Cake(null, ZitronenkuchenRezept, "Zitronenkuchen");
 		User Phil 					= new User("Philipp","ozeanien");
@@ -56,10 +51,10 @@ public class RunMongoRun {
 		Ingridient.getAll(db);
 		Recept.getAll(db);
 		Cake.getAll(db);
-		ShoppingCart.getAll(db);
+		/*ShoppingCart.getAll(db);
 		User.getAll(db);
 		Bestellung.getAll(db);
-		
+		*/
 	}
 
 }

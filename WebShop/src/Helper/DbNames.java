@@ -45,6 +45,17 @@ public class DbNames {
 		quantityType
 	}
 	
+	public static enum QuantityType{
+		gram,
+		kg,
+		liter,
+		ml,
+		ton,
+		m,
+		km,
+		teaspoon
+	}
+	
 	public static enum fieldCacke{
 		name, 
 		Recept,

@@ -49,7 +49,7 @@ public class Booking {
 			@Override
 			public void apply(final Document document) {
 	    	System.out.println(document.toString());
-	    	Booking gefunden = docToBooking(document);
+	    	Booking gefunden = docToBooking(document, db);
 	    	orders.add(gefunden);
 			}
 		});
@@ -63,7 +63,7 @@ public class Booking {
 		
 		List<Document> cakeDocs = new ArrayList<Document>();
 		for(Cake c : cakes){
-			cakeDocs.add(c.getDecument());
+			cakeDocs.add(c.getDocument());
 		}
 		
 		doc = new Document(
@@ -75,7 +75,7 @@ public class Booking {
 		return doc;
 	}
 	
-	public static Booking docToBooking(Document doc){
+	public static Booking docToBooking(Document doc, MongoDatabase db){
 		
 		User u = User.DocToUser(doc.get(DbNames.fieldOrder.User.toString()));
 		Status s = new Status(doc.getString(DbNames.fieldOrder.Status.toString()));
@@ -84,7 +84,7 @@ public class Booking {
 		@SuppressWarnings("unchecked")
 		List<Document> cakeDocs = (List<Document>) doc.get(DbNames.fieldOrder.Cackes.toString());
 		for(Document d : cakeDocs){
-			_cakes.add(Cake.DocToCake(d));
+			_cakes.add(Cake.DocToCake(d, db));
 		}
 		
 		return new Booking(
@@ -99,7 +99,7 @@ public class Booking {
 		FindIterable<Document> docIter;
 		docIter = Manager.getDocuments(DbNames.collection.ORDERS.toString(), "id", _id, db);
 		
-		return docToBooking(docIter.first());
+		return docToBooking(docIter.first(), db);
 	}
 	
 	public void save(MongoDatabase db){

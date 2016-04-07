@@ -74,10 +74,6 @@ public class Ingridient {
 	
 	public static Ingridient DocToIngridient(Document doc){
 		
-		if(doc == null){
-			return null;
-		}
-		
 		Ingridient found = new Ingridient(
 				doc.getString("id"), 
 				doc.getString(DbNames.fieldIngridient.name.toString()), 
@@ -86,6 +82,15 @@ public class Ingridient {
 				doc.getString(DbNames.fieldIngridient.quantityType.toString()));
 		
 		return found;
+	}
+	
+	public static Ingridient getByName(String _name, MongoDatabase db){
+		FindIterable<Document> docs;
+		docs = Manager.getDocuments(DbNames.collection.INGRIDIENTS.toString(), 
+				DbNames.fieldIngridient.name.toString(), _name, db);
+		Document doc = docs.first();
+		
+		return Ingridient.DocToIngridient(doc);
 	}
 	
 	public static List<Ingridient> getAll(MongoDatabase db){
@@ -99,7 +104,6 @@ public class Ingridient {
 		    public void apply(final Document document) {
 		    	System.out.println(document.toString());
 		    	Ingridient gefunden = DocToIngridient(document);
-		    	System.out.println(gefunden.toString());
 		    	allIng.add(gefunden);
 		    }
 		});
@@ -116,7 +120,7 @@ public class Ingridient {
 		
 		return doc;
 	}
-	
+	/*
 	public void update(MongoDatabase db){
 		
 		updateSingeVal(DbNames.fieldIngridient.name.toString(), 		this.name, db);
@@ -134,7 +138,7 @@ public class Ingridient {
 				field, 
 				value, 
 				db);
-	}
+	}*/
 	
 	public void save(MongoDatabase db){
 		

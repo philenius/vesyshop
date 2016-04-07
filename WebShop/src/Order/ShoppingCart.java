@@ -60,7 +60,7 @@ public class ShoppingCart {
 		List<Document> cakeDocs = new ArrayList<Document>();
 		
 		for(Cake c : cakes){
-			cakeDocs.add(c.getDecument());
+			cakeDocs.add(c.getDocument());
 		}
 		
 		Document doc = new Document("price", price.toString()).
@@ -71,14 +71,14 @@ public class ShoppingCart {
 	
 	
 	
-	private static ShoppingCart DocToCart(Document doc){
+	private static ShoppingCart DocToCart(Document doc, MongoDatabase db){
 		
 		List<Document> cakeDocs = (List<Document>) doc.get("cakes");
 		List<Cake> cakes = new ArrayList<Cake>();
 		
 		
 		for(Document d : cakeDocs){
-			cakes.add(Cake.DocToCake(doc));
+			cakes.add(Cake.DocToCake(doc, db));
 		}
 		
 		ShoppingCart sc = new ShoppingCart(cakes,
@@ -97,7 +97,7 @@ public class ShoppingCart {
 		    @Override
 		    public void apply(final Document document) {
 		    	System.out.println(document.toString());
-		    	ShoppingCart gefunden = DocToCart(document);
+		    	ShoppingCart gefunden = DocToCart(document, db);
 		    	carts.add(gefunden);
 		    }
 		});
@@ -109,7 +109,7 @@ public class ShoppingCart {
 		FindIterable<Document> docs = Manager.
 				getDocuments(DbNames.collection.CARTS.toString(), "id", _id, db);
 		
-		ShoppingCart found = DocToCart(docs.first());
+		ShoppingCart found = DocToCart(docs.first(), db);
 		
 		return found;
 	}

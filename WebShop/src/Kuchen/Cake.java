@@ -48,29 +48,37 @@ public class Cake {
 
 	public void save(MongoDatabase db){
 		
-		Document doc = getDecument();
+		Document doc = getDocument();
 		
 		Manager.insertDocument(doc, this.collection, db);
 	}
 	
-	public Document getDecument(){
+	public Document getDocument(){
 		Document doc;
 		
-		doc = new Document(DbNames.fieldCacke.name.toString(), this.name)
-		.append(DbNames.fieldCacke.Recept.toString(), this.recept.id);
+		doc = new Document(
+				DbNames.fieldCacke.name.toString(), this.name)
+		.append(DbNames.fieldCacke.Recept.toString(), this.recept.name);
 		
 		return doc;
 	}
 	
-	public static Cake DocToCake(Document doc){
+	public static Cake DocToCake(Document doc, MongoDatabase db){
 		Cake cake;
+		Recept rez = Recept.getByName
+				(doc.getString(DbNames.fieldCacke.Recept.toString()), db);
 		
 		cake = new Cake(
 				doc.getString("id"), 
-				new Recept("2b", 12, 200, "Irgendwas", asList(new Ingridient(null, "Zucker", 12, 13, "Gramm"))), //TODO
+				rez,
 				doc.getString(DbNames.fieldCacke.name.toString()));
 		
 		return cake;
+	}
+	
+	public String toString(){
+		return "name:" + this.name + ", Recept:" + this.recept.toString();
+		
 	}
 	
 	public static List<Cake> getAll(MongoDatabase db){
@@ -83,8 +91,8 @@ public class Cake {
 		    @Override
 		    public void apply(final Document document) {
 		    	System.out.println(document.toString());
-		    	Cake gefunden = DocToCake(document);
-		    	//System.out.println(gefunden.toString());
+		    	Cake gefunden = DocToCake(document, db);
+		    	System.out.println(gefunden.toString());
 		    	cakes.add(gefunden);
 		    }
 		});

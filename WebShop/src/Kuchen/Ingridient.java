@@ -15,7 +15,7 @@ import Helper.DbNames;
 
 public class Ingridient {
 	
-	final String id;
+	public String id;
 	String name;
 	BigDecimal price;
 	int quantity;
@@ -24,9 +24,8 @@ public class Ingridient {
 		
 	Document doc;
 	
-	public Ingridient(String _id, String _name, int _price, int _quantity, 
+	public Ingridient(String _name, int _price, int _quantity, 
 			String _quantityType){
-		this.id = _id;
 		this.name = _name;
 		this.price = new BigDecimal(_price);
 		this.quantity = _quantity;

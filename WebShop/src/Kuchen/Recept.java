@@ -17,7 +17,7 @@ import Helper.DbNames;
 
 public class Recept {
 	
-	final String id;
+	public String id;
 	int costs;
 	String name;
 	int timeToComplete;
@@ -25,6 +25,13 @@ public class Recept {
 	
 	protected Document doc;
 
+	public Recept(int _costs, int _time, String _name, List<Ingridient> _ingridients){
+		this.costs = _costs;
+		this.timeToComplete = _time;
+		this.name = _name;
+		this.ingridients = _ingridients;
+	}
+	
 	public Recept(String _id, int _costs, int _time, String _name, List<Ingridient> _ingridients){
 		this.id = _id;
 		this.costs = _costs;

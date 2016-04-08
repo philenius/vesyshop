@@ -34,9 +34,9 @@ public class RunMongoRun {
 		Manager.deleteAllDocsIn(db, DbNames.collection.RECEPTS.toString());
 		Manager.deleteAllDocsIn(db, DbNames.collection.USERS.toString());
 		
-		Ingridient zucker 			= new Ingridient(null, "Zucker", 12, 13, DbNames.QuantityType.gram.toString());
-		Recept ZitronenkuchenRezept = new Recept(null, 20, 200, "Rezept Zitronenkuchen", asList(zucker));
-		Cake ZitronenKuchen 		= new Cake(null, ZitronenkuchenRezept, "Zitronenkuchen");
+		Ingridient zucker 			= new Ingridient("Zucker", 12, 13, DbNames.QuantityType.gram.toString());
+		Recept ZitronenkuchenRezept = new Recept(20, 200, "Rezept Zitronenkuchen", asList(zucker));
+		Cake ZitronenKuchen 		= new Cake(ZitronenkuchenRezept, "Zitronenkuchen");
 		ShoppingCart Einkaufswagen	= new ShoppingCart(asList(ZitronenKuchen));
 		User Phil 					= new User("Philipp","ozeanien", Einkaufswagen);
 		Booking Bestellung			= new Booking(12, Phil, new Status(Status.value.open), asList(ZitronenKuchen));

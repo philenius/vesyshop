@@ -17,7 +17,7 @@ import static java.util.Arrays.asList;
 
 public class Cake {
 	
-	final String id;
+	public String id;
 	public Recept recept;
 	public BigDecimal price;
 	public String name;
@@ -26,6 +26,15 @@ public class Cake {
 	
 	protected String collection;
 	protected Document doc;
+	
+	public Cake(Recept _recept, String _name){
+		this.recept = _recept;
+		this.name = _name;
+		
+		this.collection = DbNames.collection.CAKES.toString();
+		
+		calculatePrice();
+	}
 	
 	public Cake(String _id, Recept _recept, String _name){
 		this.id = _id;

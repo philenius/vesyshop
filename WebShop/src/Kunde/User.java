@@ -21,6 +21,7 @@ public class User {
 	protected String name;
 	protected String password;
 	public ShoppingCart cart;
+	protected static String collection = DbNames.collection.USERS.toString();
 	
 	public User(String _name, String _password, ShoppingCart _cart){
 		this.name = _name;
@@ -52,7 +53,9 @@ public class User {
 		Manager.insertDocument(doc, DbNames.collection.USERS.toString(), db);
 	}
 	
-	
+	public void updateCart(MongoDatabase db){
+		Manager.update(collection, "name", this.name, "cart", this.cart.getDocument(), db);
+	}
 	
 	public static User DocToUser(Document doc, MongoDatabase db){
 		
@@ -83,6 +86,7 @@ public class User {
 		return users;
 	}
 	
+	/*
 	public static User getById(String _id, MongoDatabase db){
 		FindIterable<Document> docs = Manager.
 				getDocuments(DbNames.collection.USERS.toString(), "id", _id, db);
@@ -91,6 +95,7 @@ public class User {
 		
 		return found;
 	}
+	*/
 	
 	public static User getByName(String _name, MongoDatabase db){
 		FindIterable<Document> docs = Manager.

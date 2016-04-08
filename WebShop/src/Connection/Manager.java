@@ -111,6 +111,25 @@ public class Manager {
 		System.out.println("INFO: \t"+rows +" row(s) modified.");
 	}
 	
+	public static void update(String collection, String whereField, String whereValue,
+			String newField, Document newValue, MongoDatabase db){
+		
+		UpdateResult result = null;
+		
+		try {
+			
+			result = db.getCollection(collection).updateMany(new Document(whereField, whereValue),
+			        new Document("$set", new Document(newField, newValue)));
+			
+		}catch (Exception e){
+			System.out.println("FAIL: \tUpdating data went wrong!");
+			System.out.println(e);
+		}
+		
+		long rows = result.getModifiedCount();
+		System.out.println("INFO: \t"+rows +" row(s) modified.");
+	}
+	
 	public static void deleteAllDocsIn(MongoDatabase db, String collection){
 		db.getCollection(collection).drop();
 	}

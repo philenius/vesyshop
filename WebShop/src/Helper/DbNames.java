@@ -3,20 +3,28 @@ package Helper;
 public class DbNames {
 	
 	public static enum collection{
-		CACKES,
+		CAKES,
 		INGRIDIENTS,
 		USERS,
 		ORDERS,
-		RECEPTS
+		RECEPTS,
+		CARTS
 	}
 	
 	public static enum field{
-		id,
 		price,
 	}
 	
+	public static enum fieldStatus{
+		status
+	}
+	
+	public static enum fieldCart{
+		price,
+		cakes
+	}
+	
 	public static enum fieldOrder{
-		id,
 		price,
 		User,
 		Status,
@@ -24,7 +32,6 @@ public class DbNames {
 	}
 	
 	public static enum fieldRecept{
-		id,
 		costs,
 		name,
 		timeToComplete,
@@ -32,15 +39,24 @@ public class DbNames {
 	}
 	
 	public static enum fieldIngridient{
-		id,
 		name,
 		price,
 		quantity,
 		quantityType
 	}
 	
+	public static enum QuantityType{
+		gram,
+		kg,
+		liter,
+		ml,
+		ton,
+		m,
+		km,
+		teaspoon
+	}
+	
 	public static enum fieldCacke{
-		id, 
 		name, 
 		Recept,
 		price

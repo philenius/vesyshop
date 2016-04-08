@@ -5,11 +5,14 @@ import com.mongodb.client.MongoDatabase;
 
 import Connection.Connector;
 import Connection.Manager;
-
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
+import Helper.DbNames;
+import Kuchen.Cake;
+import Kuchen.Ingridient;
+import Kuchen.Recept;
+import Kunde.User;
+import Order.Booking;
+import Order.ShoppingCart;
+import Order.Status;
 
 import org.bson.Document;
 
@@ -19,50 +22,38 @@ public class RunMongoRun {
 
 	public static void main(String[] args) {
 
-		String dbName = "test";
-		MongoDatabase database;
-		String collection = "restaurants";
+		MongoDatabase db;
 		
 		Connector con = new Connector();
-		database = con.getDatabase(dbName);
+		db = con.getDatabase();
 		
-		/*DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.ENGLISH);
-		Document doc = null;
-		try {
-			doc = new Document("address",
-			        new Document()
-			        .append("street", "2 Avenue")
-			        .append("zipcode", "10075")
-			        .append("building", "1480")
-			        .append("coord", asList(-73.9557413, 40.7720266)))
-			.append("borough", "Manhattan")
-			.append("cuisine", "Italian")
-			.append("grades", asList(
-			        new Document()
-			                .append("date", format.parse("2014-10-01T00:00:00Z"))
-			                .append("grade", "A")
-			                .append("score", 11),
-			        new Document()
-			                .append("date", format.parse("2014-01-16T00:00:00Z"))
-			                .append("grade", "B")
-			                .append("score", 17)))
-			.append("name", "Vella")
-			.append("restaurant_id", "41704620");
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+		Manager.deleteAllDocsIn(db, DbNames.collection.CAKES.toString());
+		Manager.deleteAllDocsIn(db, DbNames.collection.CARTS.toString());
+		Manager.deleteAllDocsIn(db, DbNames.collection.INGRIDIENTS.toString());
+		Manager.deleteAllDocsIn(db, DbNames.collection.ORDERS.toString());
+		Manager.deleteAllDocsIn(db, DbNames.collection.RECEPTS.toString());
+		Manager.deleteAllDocsIn(db, DbNames.collection.USERS.toString());
 		
-		Manager.insertDocument(doc, collection, database); */
+		Ingridient zucker 			= new Ingridient("Zucker", 12, 13, DbNames.QuantityType.gram.toString());
+		Recept ZitronenkuchenRezept = new Recept(20, 200, "Rezept Zitronenkuchen", asList(zucker));
+		Cake ZitronenKuchen 		= new Cake(ZitronenkuchenRezept, "Zitronenkuchen");
+		ShoppingCart Einkaufswagen	= new ShoppingCart(asList(ZitronenKuchen));
+		User Phil 					= new User("Philipp","ozeanien", Einkaufswagen);
+		Booking Bestellung			= new Booking(12, Phil, new Status(Status.value.open), asList(ZitronenKuchen));
 		
-		//Manager.showAllDocuments(collection, database);
+		zucker.save(db);
+		ZitronenkuchenRezept.save(db);
+		ZitronenKuchen.save(db);
+		//Einkaufswagen.save(db);
+		Phil.save(db);
+		Bestellung.save(db);
 		
-		//FindIterable<Document> docs = Manager.getDocuments(collection, "address.building", "1480", database);
-		
-		Manager.update(collection, "name", "Vella", "cuisine", "FINDE", database);
-		
-		Manager.showDocuments(Manager.getDocuments(collection, "name", "Vella", database));
-		
-
+		Ingridient.getAll(db);
+		Recept.getAll(db);
+		Cake.getAll(db);
+		//ShoppingCart.getAll(db);
+		User.getAll(db);
+		Bestellung.getAll(db);
 		
 	}
 

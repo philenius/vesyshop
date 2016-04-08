@@ -24,6 +24,7 @@ public class Manager {
 	public static void insertDocument(Document doc, String collection, MongoDatabase db){
 		try {
 			db.getCollection(collection).insertOne(doc);
+			System.out.println("SUCCESS: \tInserted data..");
 		} catch (Exception e){
 			System.out.println("FAIL: \tInserting data went wrong.");
 			System.out.println(e);
@@ -35,13 +36,14 @@ public class Manager {
 		
 		FindIterable<Document> iterable = null;
 		
-		getDocuments(collection, null, null, db);
+		iterable = getDocuments(collection, null, null, db);
 		
 		return iterable;
 	}
 	
 	public static FindIterable<Document> getDocuments(String collection, String field, 
 			int value, MongoDatabase db){
+		
 		return getDocuments(collection, field, String.valueOf(value), db);
 	}
 	
@@ -50,11 +52,15 @@ public class Manager {
 		
 		FindIterable<Document> iterable = null;
 		
+		
+		
 		try {
-			
-			if(field.equals(null) && value.equals(null)){
+			//System.out.println("try to get documents...");
+			if(field == null && value == null){
+				System.out.println("Search for all documents in collection '" + collection + "'");
 				iterable = db.getCollection(collection).find();
 			} else {
+				System.out.println("Search for document with <" + value + "> in field <" + field +">");
 				iterable = db.getCollection(collection).find(eq(field,value));
 			}
 			
@@ -103,6 +109,29 @@ public class Manager {
 		
 		long rows = result.getModifiedCount();
 		System.out.println("INFO: \t"+rows +" row(s) modified.");
+	}
+	
+	public static void update(String collection, String whereField, String whereValue,
+			String newField, Document newValue, MongoDatabase db){
+		
+		UpdateResult result = null;
+		
+		try {
+			
+			result = db.getCollection(collection).updateMany(new Document(whereField, whereValue),
+			        new Document("$set", new Document(newField, newValue)));
+			
+		}catch (Exception e){
+			System.out.println("FAIL: \tUpdating data went wrong!");
+			System.out.println(e);
+		}
+		
+		long rows = result.getModifiedCount();
+		System.out.println("INFO: \t"+rows +" row(s) modified.");
+	}
+	
+	public static void deleteAllDocsIn(MongoDatabase db, String collection){
+		db.getCollection(collection).drop();
 	}
 	
 	public static void update(String collection, List<List<String>> where,

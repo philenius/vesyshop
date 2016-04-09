@@ -338,7 +338,7 @@
 	<display-name>Archetype Created Web Application</display-name>
 
 	<welcome-file-list>
-		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>/index.jsp</welcome-file>
 	</welcome-file-list>
 
 	<servlet-mapping>
@@ -354,7 +354,29 @@
 		<servlet-name>IndexServlet</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
-
+	
+	<servlet>
+		<servlet-name>AllCakesServlet</servlet-name>
+		<servlet-class>view.webshop.de.AllCakes</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AllCakesServlet</servlet-name>
+		<url-pattern>/api/cakes</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>CartServlet</servlet-name>
+		<servlet-class>view.webshop.de.CartServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CartServlet</servlet-name>
+		<url-pattern>/api/cart</url-pattern>
+	</servlet-mapping>
+	
+	
+	
+	
+	
 	<servlet>
 		<servlet-name>LoginServlet</servlet-name>
 		<servlet-class>view.webshop.de.LoginServlet</servlet-class>
@@ -362,15 +384,6 @@
 	<servlet-mapping>
 		<servlet-name>LoginServlet</servlet-name>
 		<url-pattern>/login</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>AddToCartServlet</servlet-name>
-		<servlet-class>view.webshop.de.AddToCartServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>AddToCartServlet</servlet-name>
-		<url-pattern>/addToCart</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
@@ -382,14 +395,15 @@
 		<url-pattern>/register</url-pattern>
 	</servlet-mapping>
 
-	<servlet>
-		<servlet-name>CartServlet</servlet-name>
-		<servlet-class>view.webshop.de.CartServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>CartServlet</servlet-name>
-		<url-pattern>/cart</url-pattern>
-	</servlet-mapping>
+	<!-- This filter is needed for allowing CORS -->
+	<filter>
+		<filter-name>CorsFilter</filter-name>
+		<filter-class>org.apache.catalina.filters.CorsFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>CorsFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 
 	<error-page>
 		<location>/error.jsp</location>

@@ -21,8 +21,8 @@ app.config(function ($routeProvider) {
 	.otherwise({ redirectTo: '/' });
 });
 
-app.controller('displayStatusBar', function ($scope, $http, baseURL) {
-	$scope.statusBar = new HandleStatusBar($http, $scope, baseURL);
+app.controller('displayStatusBar', function ($scope, $http, $rootScope, baseURL) {
+	$scope.statusBar = new HandleStatusBar($scope, $http, $rootScope, baseURL);
 });
 
 app.controller('displayAllCakes', function ($scope, $http, $rootScope, baseURL) {
@@ -30,14 +30,14 @@ app.controller('displayAllCakes', function ($scope, $http, $rootScope, baseURL) 
 });
 
 app.controller('CartController', function ($scope, $http, baseURL) {
-	$scope.cartVM = new HandleCart($http, $scope, baseURL);
+	$scope.cartVM = new HandleCart($http, baseURL);
 });
 
 app.controller('RegisterController', function ($scope, $http, baseURL) {
-
+	$scope.registerVM = new HandleRegistration($scope, $http, baseURL);
 });
 
-function HandleStatusBar ($http, $scope, baseURL) {
+function HandleStatusBar ($scope, $http, $rootScope, baseURL) {
 	var that = this;
 
 	this.messageError = null;
@@ -49,7 +49,8 @@ function HandleStatusBar ($http, $scope, baseURL) {
 
 	this.logIn = function () {
 		if (that.user && that.password) {			
-			that.loggedIn = true;		
+			that.loggedIn = true;
+			$rootScope.$broadcast('shop.loggedIn');
 		}
 	}
 
@@ -57,6 +58,7 @@ function HandleStatusBar ($http, $scope, baseURL) {
 		that.loggedIn = false;
 		that.user = null;
 		that.password = null;
+		$rootScope.$broadcast('shop.loggedOut');
 	}
 
 	var updateCartItems = function() {
@@ -106,7 +108,7 @@ function HandleAllCakes ($http, $rootScope, baseURL) {
 	}
 }
 
-function HandleCart ($http, $scope, baseURL) {
+function HandleCart ($http, baseURL) {
 	var that = this;
 
 	var messageError = null;
@@ -136,4 +138,24 @@ function HandleCart ($http, $scope, baseURL) {
 			that.messageError = 'The cake could not be deleted from the shopping cart!';
 		});	
 	};
+}
+
+function HandleRegistration ($scope, $http, baseURL) {
+	var that = this;
+
+	this.user = null;
+	this.password = null;
+	this.loggedIn = false;
+
+	this.register = function () {
+		console.log('register: ' + that.user + ":" + that.password);
+	}
+
+	$scope.$on('shop.loggedIn', function(event) {
+		that.loggedIn = true;
+	});
+
+	$scope.$on('shop.loggedOut', function(event) {
+		that.loggedIn = false;
+	});
 }

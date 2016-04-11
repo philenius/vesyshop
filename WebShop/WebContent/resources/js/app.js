@@ -46,23 +46,11 @@ function HandleStatusBar ($scope, $http, $rootScope, baseURL) {
 
 	this.user = null;
 	this.password = null;
-	this.badLogin = false;
 
 	this.logIn = function () {
 		if (that.user && that.password) {			
-			var params = {
-				user: that.user,
-				password: that.password
-			};
-
-			$http.post(baseURL + '/api/login', params)
-			.then( function (result) {
-				that.loggedIn = true;
-				$rootScope.$broadcast('shop.loggedIn');
-			}).catch( function (reason) {
-				that.badLogin = true;
-				that.messageError = 'Your login was not successful!';
-			});
+			that.loggedIn = true;
+			$rootScope.$broadcast('shop.loggedIn');
 		}
 	}
 
@@ -70,20 +58,7 @@ function HandleStatusBar ($scope, $http, $rootScope, baseURL) {
 		that.loggedIn = false;
 		that.user = null;
 		that.password = null;
-
-
-		console.log("logout");
-		$http.post(baseURL + '/api/logout')
-		.then( function (result) {
-			that.loggedIn = false;
-			console.log("successful logout");
-			$rootScope.$broadcast('shop.loggedOut');
-		}).catch( function (reason) {
-			console.log("bad logout");
-			that.badLogin = false;
-			that.messageError = 'Your logout was not successful!';
-		});
-
+		$rootScope.$broadcast('shop.loggedOut');
 	}
 
 	var updateCartItems = function() {
@@ -152,9 +127,11 @@ function HandleCart ($http, baseURL) {
 		});
 
 	this.removeItem = function (cake) {
-		var params = { cake_id: cake.id};
+		console.log('delete cake');
 
-		$http.delete(baseURL + '/api/cart', {data: params })
+		var params = { cake_id: cake.id, test: 'müll'};
+
+		$http.delete(baseURL + '/api/cart', params)
 		.then( function (result) {
 			that.messageInfo = 'Deleted cake from shopping cart!';
 		}).catch( function (reason) {

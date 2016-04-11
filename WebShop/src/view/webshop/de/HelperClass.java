@@ -8,11 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 
 public class HelperClass {
 
-	/**
-	 * Processes a HTTP request and returns the JSON data of the request.
-	 * @param request	The incoming HTTP request which shall be processed.
-	 * @return 			Returns the JSON as string or an empty string in case of an exception.
-	 */
 	public static String ReadJSONPostData(HttpServletRequest request) {
 		BufferedReader bufferedReader;
 		try {

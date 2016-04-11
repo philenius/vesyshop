@@ -1,37 +1,139 @@
-var app = angular.module("shop", []);
-app.constant("baseURL", "http://localhost:8080/WebShop");
+var app = angular.module('shop', ['ngRoute']);
+app.constant('baseURL', 'http://localhost:8080/WebShop');
 
-app.controller("displayAllCakes", function ($scope, $http, baseURL) {
-	$scope.vm = new ListAllCakes($http, baseURL);
+app.config(function ($routeProvider) {
+	$routeProvider
+	.when('/',
+	{
+		controller: 'displayAllCakes',
+		templateUrl: 'partials/allCakes.html'
+	})
+	.when('/register',
+	{
+		controller: 'RegisterController',
+		templateUrl: 'partials/register.html'
+	})
+	.when('/cart',
+	{
+		controller: 'CartController',
+		templateUrl: 'partials/cart.html'
+	})
+	.otherwise({ redirectTo: '/' });
 });
 
-function ListAllCakes($http, baseURL) {
+app.controller('displayStatusBar', function ($scope, $http, baseURL) {
+	$scope.statusBar = new HandleStatusBar($http, $scope, baseURL);
+});
+
+app.controller('displayAllCakes', function ($scope, $http, $rootScope, baseURL) {
+	$scope.cakeVM = new HandleAllCakes($http, $rootScope, baseURL);
+});
+
+app.controller('CartController', function ($scope, $http, baseURL) {
+	$scope.cartVM = new HandleCart($http, $scope, baseURL);
+});
+
+app.controller('RegisterController', function ($scope, $http, baseURL) {
+
+});
+
+function HandleStatusBar ($http, $scope, baseURL) {
+	var that = this;
+
+	this.messageError = null;
+	this.loggedIn = false;
+	this.cartItems = 0;
+
+	this.user = null;
+	this.password = null;
+
+	this.logIn = function () {
+		if (that.user && that.password) {			
+			that.loggedIn = true;		
+		}
+	}
+
+	this.logOut = function () {
+		that.loggedIn = false;
+		that.user = null;
+		that.password = null;
+	}
+
+	var updateCartItems = function() {
+		$http
+		.get(baseURL + '/api/cart')
+		.then(function (result) {
+			that.cartItems = result.data.length;
+		}).catch(function (result) {
+			that.messageError = 'Error: ' + result.status
+			+ ' ' + result.statusText;
+		});
+	};
+
+	updateCartItems();
+
+	$scope.$on('shop.addedCartItem', function(event) {
+		updateCartItems();
+	});
+}
+
+function HandleAllCakes ($http, $rootScope, baseURL) {
 	var that = this;
 
 	var messageError = null;
 	var messageInfo = null;
-	this.imageBaseURL = baseURL + "/resources/img/";
+	this.imageBaseURL = baseURL + '/resources/img/';
 
-    $http
-		.get(baseURL + "/api/cakes")
+	$http
+	.get(baseURL + '/api/cakes')
+	.then(function (result) {
+		that.cakes = result.data;
+	}).catch(function (result) {
+		that.messageError = 'Error: ' + result.status
+		+ ' ' + result.statusText;
+	});
+
+	this.addToCart = function(cake) {
+		$rootScope.$broadcast('shop.addedCartItem');
+		var params = { cake_id: cake.id };
+
+		$http.post(baseURL + '/api/cart', params)
+		.then( function (result) {
+			that.messageInfo = 'Added cake to shopping cart!';
+		}).catch( function (reason) {
+			that.messageError = 'The cake could not be added to the shopping cart!';
+		});	
+	}
+}
+
+function HandleCart ($http, $scope, baseURL) {
+	var that = this;
+
+	var messageError = null;
+	var messageInfo = null;
+	this.imageBaseURL = baseURL + '/resources/img/';
+	this.cart = {};
+	this.cart.price = '23.56';
+
+	$http
+		.get(baseURL + '/api/cart')
 		.then(function (result) {
-			that.cakes = result.data;
+			that.cart.cakes = result.data;
 		}).catch(function (result) {
-			that.messageError = "Error: " + result.status
-						+ " " + result.statusText;
+			that.messageError = 'Error: ' + result.status
+			+ ' ' + result.statusText;
 		});
 
-    this.addToCart = function(cake) {
-    	console.log(cake.id);
+	this.removeItem = function (cake) {
+		console.log('delete cake');
 
-    	var params = { cake_id: cake.id };
+		var params = { cake_id: cake.id, test: 'müll'};
 
-    	$http.post(baseURL + "/api/cart", params)
-    	.then( function (result) {
-			that.messageInfo = "Added cake to shopping cart!";
-			console.log(result.status);
+		$http.delete(baseURL + '/api/cart', params)
+		.then( function (result) {
+			that.messageInfo = 'Deleted cake from shopping cart!';
 		}).catch( function (reason) {
-			that.messageError = "The cake could not be added to the shopping cart!";
+			that.messageError = 'The cake could not be deleted from the shopping cart!';
 		});	
-    }
+	};
 }

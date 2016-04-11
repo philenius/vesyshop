@@ -333,10 +333,8 @@
 	deployment descriptor. Tools are not allowed to add the non-standard information 
 	into the standard deployment descriptor. -->
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns="http://java.sun.com/xml/ns/javaee"
 	xmlns:web="http://xmlns.jcp.org/xml/ns/javaee"
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
-
 	<display-name>Archetype Created Web Application</display-name>
 
 	<welcome-file-list>
@@ -358,11 +356,11 @@
 	</servlet-mapping>
 
 	<servlet>
-		<servlet-name>GetAllCakesServlet</servlet-name>
-		<servlet-class>view.webshop.de.GetAllCakesServlet</servlet-class>
+		<servlet-name>AllCakesServlet</servlet-name>
+		<servlet-class>view.webshop.de.AllCakes</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>GetAllCakesServlet</servlet-name>
+		<servlet-name>AllCakesServlet</servlet-name>
 		<url-pattern>/api/cakes</url-pattern>
 	</servlet-mapping>
 
@@ -374,23 +372,27 @@
 		<servlet-name>CartServlet</servlet-name>
 		<url-pattern>/api/cart</url-pattern>
 	</servlet-mapping>
-	
+
+
+
+
+
 	<servlet>
 		<servlet-name>LoginServlet</servlet-name>
 		<servlet-class>view.webshop.de.LoginServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>LoginServlet</servlet-name>
-		<url-pattern>/api/login</url-pattern>
+		<url-pattern>/login</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
-		<servlet-name>LogoutServlet</servlet-name>
-		<servlet-class>view.webshop.de.LogoutServlet</servlet-class>
+		<servlet-name>RegisterServlet</servlet-name>
+		<servlet-class>view.webshop.de.RegisterServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>LogoutServlet</servlet-name>
-		<url-pattern>/api/logout</url-pattern>
+		<servlet-name>RegisterServlet</servlet-name>
+		<url-pattern>/register</url-pattern>
 	</servlet-mapping>
 
 	<!-- This filter is needed for allowing CORS -->

@@ -21,7 +21,9 @@
 			</div>
 			<ul class="nav navbar-nav">
 				<li><a href="${pageContext.request.contextPath}/register">Register</a></li>
-				<li><a href="${pageContext.request.contextPath}/cart"> Shopping cart <span class="badge badge-primary">4</span></a></li>
+				<li><a href="${pageContext.request.contextPath}/cart">
+						Shopping cart <span class="badge badge-primary">4</span>
+				</a></li>
 			</ul>
 			<div class="navbar-right">
 				<form class="navbar-form" role="search" action="login" method="POST">
@@ -105,6 +107,7 @@
 		</div>
 		<!-- end row -->
 	</div>
+	
 	<footer class="footer">
 		<div class="container">
 			<p class="text-muted">

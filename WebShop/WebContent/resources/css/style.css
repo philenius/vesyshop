@@ -25,3 +25,17 @@ body {
 .badge-primary {
 	background-color: #337ab7;
 }
+
+.cart-total {
+	font-weight: bold;
+	font-size: 3rem;
+	text-align: right;
+}
+
+a.link-back {
+	font-size: 2rem;
+}
+
+div.row.buffer-top {
+	margin-top: 20px;
+}

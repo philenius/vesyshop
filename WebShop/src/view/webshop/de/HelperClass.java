@@ -13,12 +13,13 @@ public class HelperClass {
 		try {
 			bufferedReader = new BufferedReader(new InputStreamReader(request.getInputStream()));
 			String jsonData = "";
-			if (bufferedReader != null) {
-				try {
-					jsonData = bufferedReader.readLine();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+			try {
+				String line;
+				while ((line = bufferedReader.readLine()) != null)
+					jsonData += line;
+					System.out.println(jsonData);
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 			return jsonData;
 		} catch (IOException e1) {

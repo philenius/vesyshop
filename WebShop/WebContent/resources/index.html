@@ -26,7 +26,7 @@
 					<div data-ng-switch="statusBar.loggedIn">
 						<div data-ng-switch-when="false">
 							<form class="navbar-form">
-								<div class="form-group">
+								<div class="form-group" data-ng-class="{ 'has-error': statusBar.badLogin }">
 									<input data-ng-model="statusBar.user" type="text" class="form-control" placeholder="user"
 									name="user" autofocus required>
 									<input data-ng-model="statusBar.password" type="password"

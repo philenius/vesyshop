@@ -37,24 +37,30 @@ public class RunMongoRun {
 		Ingridient zucker 			= new Ingridient("Zucker", 12, 13, DbNames.QuantityType.gram.toString());
 		Recept ZitronenkuchenRezept = new Recept(20, 200, "Rezept Zitronenkuchen", asList(zucker));
 		Cake ZitronenKuchen 		= new Cake(ZitronenkuchenRezept, "Zitronenkuchen");
-		ShoppingCart Einkaufswagen	= new ShoppingCart(asList(ZitronenKuchen));
+		ShoppingCart Einkaufswagen	= new ShoppingCart(asList(ZitronenKuchen),"olala123");
 		User Phil 					= new User("Philipp","ozeanien", Einkaufswagen);
+		
 		Booking Bestellung			= new Booking(12, Phil, new Status(Status.value.open), asList(ZitronenKuchen));
 		
 		zucker.save(db);
 		ZitronenkuchenRezept.save(db);
 		ZitronenKuchen.save(db);
-		//Einkaufswagen.save(db);
+		Einkaufswagen.save(db);
 		Phil.save(db);
 		Bestellung.save(db);
+		
+		
 		
 		Ingridient.getAll(db);
 		Recept.getAll(db);
 		Cake.getAll(db);
-		//ShoppingCart.getAll(db);
+		ShoppingCart.getAll(db);
 		User.getAll(db);
 		Bestellung.getAll(db);
 		
+
+		
+
 	}
 
 }

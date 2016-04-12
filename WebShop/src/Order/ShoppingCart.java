@@ -19,18 +19,23 @@ public class ShoppingCart {
 	protected String id;
 	public List<Cake> cakes;
 	BigDecimal price;
+	public String session;
 	
-	public ShoppingCart(List<Cake> _cakes){
+	public ShoppingCart(List<Cake> _cakes, String _session){
 		this.cakes = _cakes;
 		price = new BigDecimal(0);
 		calculatePrice();
+		this.session = _session;
 	}
 	
-	public ShoppingCart(List<Cake> _cakes, String _id, String _price){
+	public ShoppingCart(List<Cake> _cakes, String _id, String _price, String _session){
 		this.cakes = _cakes;
 		this.id = _id;
 		price = new BigDecimal(Integer.valueOf(_price));
+		this.session = _session;
 	}
+	
+	
 	
 	private void calculatePrice(){
 		
@@ -64,12 +69,13 @@ public class ShoppingCart {
 		}
 		
 		Document doc = new Document("price", price.toString()).
-				append(DbNames.fieldCart.cakes.toString(),cakeDocs); 
+				append(DbNames.fieldCart.cakes.toString(),cakeDocs)
+				.append("session", this.session); 
 		
 		return doc;
 	}
 	
-	/*
+	
 	public void save(MongoDatabase db){
 		
 		Document doc = getDocument();
@@ -77,10 +83,10 @@ public class ShoppingCart {
 		Manager.insertDocument(doc, DbNames.collection.CARTS.toString(), db);
 	}
 	
-	*/
 	
 	public static ShoppingCart docToCart(Document doc, MongoDatabase db){
 		
+		@SuppressWarnings("unchecked")
 		List<Document> cakeDocs = (List<Document>) doc.get("cakes");
 		List<Cake> cakes = new ArrayList<Cake>();
 		
@@ -91,12 +97,13 @@ public class ShoppingCart {
 		
 		ShoppingCart sc = new ShoppingCart(cakes,
 				doc.getString("id"),
-				doc.getString("price"));
+				doc.getString("price"),
+				doc.getString("session"));
 		
 		return sc;
 	}
 	
-	/*
+	
 	public static List<ShoppingCart> getAll(MongoDatabase db){
 		List<ShoppingCart> carts = new ArrayList<ShoppingCart>();
 		
@@ -106,14 +113,15 @@ public class ShoppingCart {
 		    @Override
 		    public void apply(final Document document) {
 		    	System.out.println(document.toString());
-		    	ShoppingCart gefunden = DocToCart(document, db);
+		    	ShoppingCart gefunden = docToCart(document, db);
 		    	carts.add(gefunden);
 		    }
 		});
 		
 		return carts;
 	}
-	*/
+	
+	
 	/*public static ShoppingCart getById(String _id, MongoDatabase db){
 		FindIterable<Document> docs = Manager.
 				getDocuments(DbNames.collection.CARTS.toString(), "id", _id, db);

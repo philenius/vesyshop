@@ -22,6 +22,7 @@ public class User {
 	protected String password;
 	public ShoppingCart cart;
 	protected static String collection = DbNames.collection.USERS.toString();
+	public String session;
 	
 	public User(String _name, String _password, ShoppingCart _cart){
 		this.name = _name;
@@ -85,7 +86,7 @@ public class User {
 		
 		return users;
 	}
-	
+
 	/*
 	public static User getById(String _id, MongoDatabase db){
 		FindIterable<Document> docs = Manager.
@@ -96,7 +97,7 @@ public class User {
 		return found;
 	}
 	*/
-	
+
 	public static User getByName(String _name, MongoDatabase db){
 		FindIterable<Document> docs = Manager.
 				getDocuments(DbNames.collection.USERS.toString(), "name", _name, db);

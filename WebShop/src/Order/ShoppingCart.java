@@ -17,19 +17,19 @@ import Kunde.User;
 
 public class ShoppingCart {
 	protected String id;
-	public List<Cake> cakes;
+	public List<Cake> cakes = new ArrayList<Cake>();
 	BigDecimal price;
 	public String session;
 	
 	public ShoppingCart(List<Cake> _cakes, String _session){
-		this.cakes = _cakes;
+		this.cakes.addAll(_cakes);
 		price = new BigDecimal(0);
 		calculatePrice();
 		this.session = _session;
 	}
 	
 	public ShoppingCart(List<Cake> _cakes, String _id, String _price, String _session){
-		this.cakes = _cakes;
+		this.cakes.addAll(_cakes);
 		this.id = _id;
 		price = new BigDecimal(Integer.valueOf(_price));
 		this.session = _session;
@@ -50,7 +50,7 @@ public class ShoppingCart {
 	}
 	
 	public void addCacke(Cake c){
-		this.cakes.add(c);
+		cakes.add(c);
 	}
 	
 	public void removeCacke(Cake c){
@@ -136,8 +136,14 @@ public class ShoppingCart {
 		FindIterable<Document> docs = Manager.
 				getDocuments(DbNames.collection.CARTS.toString(), "session", _id, db);
 		
+		if(docs == null){
+			return null;
+		}
+		
 		ShoppingCart found = docToCart(docs.first(), db);
 		
+		System.out.println(docs.first().toString());
+				
 		return found;
 	}
 

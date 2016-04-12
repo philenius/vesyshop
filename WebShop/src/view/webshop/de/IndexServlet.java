@@ -43,6 +43,7 @@ public class IndexServlet extends HttpServlet {
 			newCart.save(db);
 		}
 
+		connector.close();
 		resp.sendRedirect("resources/index.html");
 	};
 

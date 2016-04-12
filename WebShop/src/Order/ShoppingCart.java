@@ -13,7 +13,6 @@ import com.mongodb.client.MongoDatabase;
 import Connection.Manager;
 import Helper.DbNames;
 import Kuchen.Cake;
-import Kunde.User;
 
 public class ShoppingCart {
 	protected String id;
@@ -155,6 +154,20 @@ public class ShoppingCart {
 		System.out.println(docs.first().toString());
 				
 		return found;
+	}
+	
+	/**
+	 * Transforms this cart object into JSON.
+	 * 
+	 * @return Returns this as a JSON string.
+	 */
+	public String toJSON() {
+		String json = "{";
+		json += "\"price\":\"" + this.price + "\",";
+		json += "\"count\":\"" + this.cakes.size() + "\",";
+		json += "\"cakes\":" + Cake.listToJSON(this.cakes); 
+		json += "}";
+		return json;
 	}
 
 }

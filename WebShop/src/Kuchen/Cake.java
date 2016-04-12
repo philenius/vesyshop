@@ -86,7 +86,7 @@ public class Cake {
 		return "name:" + this.name + ", Recept:" + this.recept.toString();
 	}
 
-	public static String getAll(MongoDatabase db) throws JsonGenerationException, JsonMappingException, IOException {
+	public static String getAllAsJSON(MongoDatabase db) throws JsonGenerationException, JsonMappingException, IOException {
 
 		List<Cake> cakes = new ArrayList<Cake>();
 
@@ -95,9 +95,7 @@ public class Cake {
 		cakeDocs.forEach(new Block<Document>() {
 			@Override
 			public void apply(final Document document) {
-				System.out.println(document.toString());
 				Cake gefunden = DocToCake(document, db);
-				System.out.println(gefunden.toString());
 				cakes.add(gefunden);
 			}
 		});

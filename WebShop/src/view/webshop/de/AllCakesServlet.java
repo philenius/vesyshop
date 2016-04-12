@@ -35,7 +35,7 @@ public class AllCakesServlet extends HttpServlet {
 			
 			Connector c = new Connector();
 			MongoDatabase db = c.getDatabase();
-			String cakes = Cake.getAll(db);
+			String cakes = Cake.getAllAsJSON(db);
 			
 			PrintWriter out = resp.getWriter();
 			out.write(cakes);

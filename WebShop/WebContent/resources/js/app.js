@@ -90,7 +90,7 @@ function HandleStatusBar ($scope, $http, $rootScope, baseURL) {
 		$http
 		.get(baseURL + '/api/cart')
 		.then(function (result) {
-			that.cartItems = result.data.length;
+			that.cartItems = result.data.count;
 		}).catch(function (result) {
 			that.messageError = 'Error: ' + result.status
 			+ ' ' + result.statusText;
@@ -122,7 +122,7 @@ function HandleAllCakes ($http, $rootScope, baseURL) {
 
 	this.addToCart = function(cake) {
 		$rootScope.$broadcast('shop.addedCartItem');
-		var params = { cake_id: cake.id };
+		var params = { cake: cake.name };
 
 		$http.post(baseURL + '/api/cart', params)
 		.then( function (result) {
@@ -140,19 +140,20 @@ function HandleCart ($http, baseURL) {
 	var messageInfo = null;
 	this.imageBaseURL = baseURL + '/resources/img/';
 	this.cart = {};
-	this.cart.price = '23.56';
+	this.cartItems = 0;
 
 	$http
 		.get(baseURL + '/api/cart')
 		.then(function (result) {
-			that.cart.cakes = result.data;
+			that.cart = result.data;
+			that.cartItems = result.data.count;
 		}).catch(function (result) {
 			that.messageError = 'Error: ' + result.status
 			+ ' ' + result.statusText;
 		});
 
 	this.removeItem = function (cake) {
-		var params = { cake_id: cake.id};
+		var params = { cake: cake.name };
 
 		$http.delete(baseURL + '/api/cart', {data: params })
 		.then( function (result) {

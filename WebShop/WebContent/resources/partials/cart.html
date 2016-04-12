@@ -11,7 +11,7 @@
 	</div>
 </div><!-- end row -->
 
-<div class="row" data-ng-show="cartVM.cart.cakes.length > 0">
+<div class="row" data-ng-show="cartVM.cartItems > 0">
 
 	<div class="col-lg-12">
 
@@ -54,7 +54,7 @@
 	</div>
 </div><!-- end row -->
 
-<div class="row" data-ng-show="cartVM.cart.cakes.length == 0">
+<div class="row" data-ng-show="cartVM.cartItems == 0">
 	<div class="col-lg-12">
 		<div class="alert alert-info fade in">
 			Oh, your shopping cart seems to be <strong>empty!</strong>

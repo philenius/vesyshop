@@ -83,7 +83,6 @@ public class ShoppingCart {
 		Manager.insertDocument(doc, DbNames.collection.CARTS.toString(), db);
 	}
 	
-	
 	public static ShoppingCart docToCart(Document doc, MongoDatabase db){
 		
 		@SuppressWarnings("unchecked")
@@ -121,14 +120,25 @@ public class ShoppingCart {
 		return carts;
 	}
 	
+	public void update(MongoDatabase db) {
+		
+		List<Document> cakeDocs = new ArrayList<Document>();
+		
+		for(Cake c : cakes){
+			cakeDocs.add(c.getDocument());
+		}
+		
+		Manager.update("CARTS", "session", this.session, "cakes", cakeDocs, db);
+	}
 	
-	/*public static ShoppingCart getById(String _id, MongoDatabase db){
+	
+	public static ShoppingCart getBySessionId(String _id, MongoDatabase db){
 		FindIterable<Document> docs = Manager.
-				getDocuments(DbNames.collection.CARTS.toString(), "id", _id, db);
+				getDocuments(DbNames.collection.CARTS.toString(), "session", _id, db);
 		
 		ShoppingCart found = docToCart(docs.first(), db);
 		
 		return found;
-	}*/
+	}
 
 }

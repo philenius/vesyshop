@@ -40,6 +40,10 @@ public class RunMongoRun {
 		ShoppingCart Einkaufswagen	= new ShoppingCart(asList(ZitronenKuchen),"olala123");
 		User Phil 					= new User("Philipp","ozeanien", Einkaufswagen);
 		
+		Recept ApfelkuchenRezept = new Recept(20, 200, "Rezept Apfelkuchen", asList(zucker));
+		Cake Apfelkuchen 		= new Cake(ApfelkuchenRezept, "Apfelkuchen");
+
+		
 		Booking Bestellung			= new Booking(12, Phil, new Status(Status.value.open), asList(ZitronenKuchen));
 		
 		zucker.save(db);
@@ -48,15 +52,18 @@ public class RunMongoRun {
 		Einkaufswagen.save(db);
 		Phil.save(db);
 		Bestellung.save(db);
+		Apfelkuchen.save(db);
+		ApfelkuchenRezept.save(db);
 		
-		
+		Einkaufswagen.addCacke(Apfelkuchen);
+		Einkaufswagen.update(db);
 		
 		Ingridient.getAll(db);
 		Recept.getAll(db);
 		Cake.getAll(db);
 		ShoppingCart.getAll(db);
 		User.getAll(db);
-		Bestellung.getAll(db);
+		//Bestellung.getAll(db);
 		
 
 		

@@ -42,6 +42,7 @@ public class AllCakesServlet extends HttpServlet {
 			out.close();
 			
 			resp.setStatus(HttpServletResponse.SC_OK);
+			c.close();
 			return;
 		} catch (JSONException ex) {
 			System.out.println(ex);

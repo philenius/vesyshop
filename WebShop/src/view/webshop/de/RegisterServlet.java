@@ -33,7 +33,6 @@ public class RegisterServlet extends HttpServlet {
 		
 		try {
 			String jsonData = HelperClass.ReadJSONPostData(req);
-
 			JSONObject jsonObject = new JSONObject(jsonData);
 			
 			String user = jsonObject.getString("user");
@@ -49,7 +48,7 @@ public class RegisterServlet extends HttpServlet {
 			MongoDatabase db = connector.getDatabase();
 			
 			// TODO: User newUser = new User(user, password, shoppingCart); -> no ShoppingCart shall be required
-//			User newUser = new User(user, password, null);
+//			User newUser = new User(user, password);
 //			newUser.save(db);
 			
 			resp.setStatus(HttpServletResponse.SC_OK);

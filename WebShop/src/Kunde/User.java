@@ -28,6 +28,7 @@ public class User {
 		this.name = _name;
 		this.password = _password;
 		this.cart = _cart;
+		this.session = _cart.session;
 	}
 	
 	public User(String _id, String _name, String _password, ShoppingCart _cart){
@@ -35,6 +36,7 @@ public class User {
 		this.password = _password;
 		this.id = _id;
 		this.cart = _cart;
+		this.session = _cart.session;
 	}
 	
 	public boolean checkPw(String passw){

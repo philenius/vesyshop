@@ -2,7 +2,6 @@ package view.webshop.de;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -11,7 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONException;
 
-import mocking.Cake;
+import com.mongodb.client.MongoDatabase;
+
+import Connection.Connector;
+import Kuchen.Cake;
+
 
 public class AllCakesServlet extends HttpServlet {
 
@@ -26,28 +29,20 @@ public class AllCakesServlet extends HttpServlet {
 	@Override
 	protected void doGet(javax.servlet.http.HttpServletRequest req, javax.servlet.http.HttpServletResponse resp)
 			throws javax.servlet.ServletException, java.io.IOException {
-		
-		List<Cake> cakes = Cake.getAllCakes();
-		String responseJSON = "[";
-		for (int i = 0; i < cakes.size(); i++) {
-			responseJSON += cakes.get(i).toJSON();
-			if (i == (cakes.size() - 1)) {
-				continue;
-			}
-			responseJSON += ",";
-		}
-		responseJSON += " ]";
-
-		PrintWriter out = resp.getWriter();
-		out.write(responseJSON);
-		out.close();
 
 		try {
-			// TODO: Serialize all cake objects into JSON
-
 			resp.setContentType("application/json");
 			
+			Connector c = new Connector();
+			MongoDatabase db = c.getDatabase();
+			String cakes = Cake.getAll(db);
+			
+			PrintWriter out = resp.getWriter();
+			out.write(cakes);
+			out.close();
+			
 			resp.setStatus(HttpServletResponse.SC_OK);
+			c.close();
 			return;
 		} catch (JSONException ex) {
 			System.out.println(ex);

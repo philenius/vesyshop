@@ -26,7 +26,7 @@ public class RunMongoRun {
 		
 		Connector con = new Connector();
 		db = con.getDatabase();
-		
+		/*
 		Manager.deleteAllDocsIn(db, DbNames.collection.CAKES.toString());
 		Manager.deleteAllDocsIn(db, DbNames.collection.CARTS.toString());
 		Manager.deleteAllDocsIn(db, DbNames.collection.INGRIDIENTS.toString());
@@ -64,8 +64,8 @@ public class RunMongoRun {
 		ShoppingCart.getAll(db);
 		User.getAll(db);
 		//Bestellung.getAll(db);
-		
-		ShoppingCart.getBySessionId("olala123", db);
+		*/
+		ShoppingCart sc = ShoppingCart.getBySessionId("olala123", db);
 	}
 
 }

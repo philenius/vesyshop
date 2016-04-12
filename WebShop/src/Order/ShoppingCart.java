@@ -87,10 +87,20 @@ public class ShoppingCart {
 		
 		@SuppressWarnings("unchecked")
 		List<Document> cakeDocs = (List<Document>) doc.get("cakes");
+		
+		if(cakeDocs == null){
+			return null;
+		}
+		
 		List<Cake> cakes = new ArrayList<Cake>();
 		
 		
 		for(Document d : cakeDocs){
+			
+			if(d == null){
+				return null;
+			}
+			
 			cakes.add(Cake.DocToCake(d, db));
 		}
 		
@@ -136,7 +146,7 @@ public class ShoppingCart {
 		FindIterable<Document> docs = Manager.
 				getDocuments(DbNames.collection.CARTS.toString(), "session", _id, db);
 		
-		if(docs == null){
+		if(docs == null || docs.first() == null){
 			return null;
 		}
 		

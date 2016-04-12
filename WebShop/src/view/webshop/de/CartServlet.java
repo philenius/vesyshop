@@ -34,10 +34,6 @@ public class CartServlet extends HttpServlet {
 			// Creates session if there is none
 			String JSID = req.getSession().getId();
 
-			// TODO: Search in DB for the cart associated with this JSID and
-			// return
-			// it
-
 			Connector connector = new Connector();
 			MongoDatabase db = connector.getDatabase();
 			ShoppingCart cart = ShoppingCart.getBySessionId(JSID, db);

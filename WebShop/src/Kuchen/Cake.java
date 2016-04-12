@@ -112,7 +112,7 @@ public class Cake {
 	 *            The list of cakes.
 	 * @return The JSON array of cakes.
 	 */
-	private static String listToJSON(List<Cake> cakes) {
+	public static String listToJSON(List<Cake> cakes) {
 		String json = "[";
 		for (int i = 0; i < cakes.size(); i++) {
 			json += (cakes.get(i).toJSON());
@@ -134,7 +134,7 @@ public class Cake {
 	private String toJSON() {
 		String json = "{";
 		json += "\"name\":\"" + this.name + "\",";
-		json += "\"price\":" + this.price + ",";
+		json += "\"price\":\"" + this.price + "\",";
 		json += "\"image\":\"" + this.image + "\"";
 		json += "}";
 		return json;

@@ -41,14 +41,21 @@ public class ShoppingCart {
 	}
 	
 	public boolean removeCakeByName(String cakeName, MongoDatabase db){
+		
+		if(cakes == null)
+		{
+			return false;
+		}
+		
 		for(Cake c : this.cakes){
 			if(c.name.equals(cakeName)){
 				cakes.remove(c);
+				update(db);
 				return true;
 			}
 		}
 		
-		update(db);
+		
 		
 		return false;
 	}

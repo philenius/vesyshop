@@ -8,6 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.mongodb.client.MongoDatabase;
+
+import Connection.Connector;
+import Order.ShoppingCart;
+
 public class LogoutServlet extends HttpServlet {
 
 	/**
@@ -25,17 +30,26 @@ public class LogoutServlet extends HttpServlet {
 	 */
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
 		try {
+			// Creates session if there is none
+			String JSID = req.getSession().getId();
 
-			System.out.println("logout");
+			Connector connector = new Connector();
+			MongoDatabase db = connector.getDatabase();
 
-			// TODO: Remove user and cart from DB
+			ShoppingCart cart = ShoppingCart.getBySessionId(JSID, db);
+			if (cart != null) {
+				// TDODO: Remove session ID from user in DB: User user = User.getBySID(JSID, db); user.session = null; user.save(db);
+				// TODO: Remove user and cart from DB: cart.delete();
+			}
 
 			// Destroys the session
 			HttpSession session = req.getSession();
 			session.invalidate();
 			
 			resp.setStatus(HttpServletResponse.SC_OK);
+			connector.close();
 			return;
 		} catch (Exception ex) {
 			System.out.println(ex);

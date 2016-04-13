@@ -392,6 +392,15 @@
 		<url-pattern>/api/logout</url-pattern>
 	</servlet-mapping>
 
+	<servlet>
+		<servlet-name>RegisterServlet</servlet-name>
+		<servlet-class>view.webshop.de.RegisterServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RegisterServlet</servlet-name>
+		<url-pattern>/api/register</url-pattern>
+	</servlet-mapping>
+
 	<!-- This filter is needed for allowing CORS -->
 	<filter>
 		<filter-name>CorsFilter</filter-name>

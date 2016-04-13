@@ -71,15 +71,12 @@ function HandleStatusBar ($scope, $http, $rootScope, baseURL) {
 		that.user = null;
 		that.password = null;
 
-
-		console.log("logout");
 		$http.post(baseURL + '/api/logout')
 		.then( function (result) {
 			that.loggedIn = false;
-			console.log("successful logout");
 			$rootScope.$broadcast('shop.loggedOut');
+			window.location = baseURL;
 		}).catch( function (reason) {
-			console.log("bad logout");
 			that.badLogin = false;
 			that.messageError = 'Your logout was not successful!';
 		});
@@ -143,14 +140,14 @@ function HandleCart ($http, baseURL) {
 	this.cartItems = 0;
 
 	$http
-		.get(baseURL + '/api/cart')
-		.then(function (result) {
-			that.cart = result.data;
-			that.cartItems = result.data.count;
-		}).catch(function (result) {
-			that.messageError = 'Error: ' + result.status
-			+ ' ' + result.statusText;
-		});
+	.get(baseURL + '/api/cart')
+	.then(function (result) {
+		that.cart = result.data;
+		that.cartItems = result.data.count;
+	}).catch(function (result) {
+		that.messageError = 'Error: ' + result.status
+		+ ' ' + result.statusText;
+	});
 
 	this.removeItem = function (cake) {
 		var params = { cake: cake.name };
@@ -170,9 +167,25 @@ function HandleRegistration ($scope, $http, baseURL) {
 	this.user = null;
 	this.password = null;
 	this.loggedIn = false;
+	this.successfulRegistration = false;
+
+	this.messageInfo = null;
+	that.messageError = null;
 
 	this.register = function () {
-		console.log('register: ' + that.user + ":" + that.password);
+		if (that.user && that.password) {			
+			var params = {
+				user: that.user,
+				password: that.password
+			};
+
+			$http.post(baseURL + '/api/register', params)
+			.then( function (result) {
+				that.messageInfo = 'You\'re registration was successful. You may now login!';
+			}).catch( function (reason) {
+				that.messageError = 'The registration was not successful!';
+			});	
+		}
 	}
 
 	$scope.$on('shop.loggedIn', function(event) {

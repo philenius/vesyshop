@@ -29,14 +29,10 @@ public class CartServlet extends HttpServlet {
 	 */
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
+
 		try {
 			// Creates session if there is none
 			String JSID = req.getSession().getId();
-
-			// TODO: Search in DB for the cart associated with this JSID and
-			// return
-			// it
 
 			Connector connector = new Connector();
 			MongoDatabase db = connector.getDatabase();
@@ -54,8 +50,8 @@ public class CartServlet extends HttpServlet {
 			out.write(cart.toJSON());
 			out.close();
 
-
 			resp.setStatus(HttpServletResponse.SC_OK);
+			connector.close();
 			return;
 		} catch (JSONException ex) {
 			System.out.println(ex);
@@ -70,7 +66,7 @@ public class CartServlet extends HttpServlet {
 	 */
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
+
 		try {
 			String jsonData = HelperClass.ReadJSONPostData(req);
 			JSONObject jsonObject = new JSONObject(jsonData);
@@ -98,6 +94,7 @@ public class CartServlet extends HttpServlet {
 			cart.save(db);
 
 			resp.setStatus(HttpServletResponse.SC_CREATED);
+			connector.close();
 			return;
 		} catch (JSONException ex) {
 			System.out.println(ex);
@@ -112,7 +109,7 @@ public class CartServlet extends HttpServlet {
 	 */
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
+
 		try {
 			String jsonData = HelperClass.ReadJSONPostData(req);
 			JSONObject jsonObject = new JSONObject(jsonData);
@@ -141,6 +138,7 @@ public class CartServlet extends HttpServlet {
 			cart.save(db);
 
 			resp.setStatus(HttpServletResponse.SC_OK);
+			connector.close();
 			return;
 		} catch (JSONException ex) {
 			System.out.println(ex);

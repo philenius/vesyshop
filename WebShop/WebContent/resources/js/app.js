@@ -71,15 +71,12 @@ function HandleStatusBar ($scope, $http, $rootScope, baseURL) {
 		that.user = null;
 		that.password = null;
 
-
-		console.log("logout");
 		$http.post(baseURL + '/api/logout')
 		.then( function (result) {
 			that.loggedIn = false;
-			console.log("successful logout");
 			$rootScope.$broadcast('shop.loggedOut');
+			window.location = baseURL;
 		}).catch( function (reason) {
-			console.log("bad logout");
 			that.badLogin = false;
 			that.messageError = 'Your logout was not successful!';
 		});

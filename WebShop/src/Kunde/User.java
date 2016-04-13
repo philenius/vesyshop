@@ -22,7 +22,7 @@ public class User {
 	protected String password;
 	public ShoppingCart cart = null;
 	protected static String collection = DbNames.collection.USERS.toString();
-	public String session = null;
+	public String session = "";
 	
 	public User(String _name, String _password, ShoppingCart _cart){
 		this.name = _name;
@@ -49,9 +49,17 @@ public class User {
 	}
 	
 	public Document getDocument(){
-		Document doc = new Document("name", name)
+		Document doc;
+		if(this.cart == null){
+			doc = new Document("name", name)
+					.append("password", password)
+					.append("cart", "").
+					append("session", this.session);
+		}
+		
+		doc = new Document("name", name)
 				.append("password", password)
-				.append("cart", this.cart.getDocument());
+				.append("cart", this.cart.getDocument()).append("session", this.session);
 		return doc;
 	}
 	

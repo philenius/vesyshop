@@ -134,8 +134,8 @@ public class CartServlet extends HttpServlet {
 				resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
 				return;
 			}
-			cart.removeCakeByName(cakeName);
-			cart.save(db);
+			cart.removeCakeByName(cakeName,db);
+			//wird geupdated //cart.save(db);
 
 			resp.setStatus(HttpServletResponse.SC_OK);
 			connector.close();

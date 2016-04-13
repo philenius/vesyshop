@@ -37,15 +37,19 @@ public class ShoppingCart {
 	public void addCakeByName(String cakeName, MongoDatabase db){
 		Cake newCake = Cake.getByName(cakeName, db);
 		this.addCacke(newCake);
+		update(db);
 	}
 	
-	public boolean removeCakeByName(String cakeName){
+	public boolean removeCakeByName(String cakeName, MongoDatabase db){
 		for(Cake c : this.cakes){
 			if(c.name.equals(cakeName)){
 				cakes.remove(c);
 				return true;
 			}
 		}
+		
+		update(db);
+		
 		return false;
 	}
 	

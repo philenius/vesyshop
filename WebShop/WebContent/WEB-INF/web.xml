@@ -333,16 +333,15 @@
 	deployment descriptor. Tools are not allowed to add the non-standard information 
 	into the standard deployment descriptor. -->
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns="http://java.sun.com/xml/ns/javaee"
-	xmlns:web="http://xmlns.jcp.org/xml/ns/javaee"
-	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee" xmlns:web="http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+	version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee">
 
 	<display-name>Archetype Created Web Application</display-name>
 
 	<welcome-file-list>
 		<welcome-file>/resources/index.html</welcome-file>
 	</welcome-file-list>
-	
+
 	<servlet-mapping>
 		<servlet-name>default</servlet-name>
 		<url-pattern>/resources/*</url-pattern>
@@ -374,7 +373,7 @@
 		<servlet-name>CartServlet</servlet-name>
 		<url-pattern>/api/cart</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>LoginServlet</servlet-name>
 		<servlet-class>view.webshop.de.LoginServlet</servlet-class>
@@ -400,7 +399,8 @@
 		<init-param>
 			<param-name>cors.allowed.headers</param-name>
 			<param-value>Accept,Accept-Encoding,Accept-Language,Access-Control-Request-Method,Access-Control-Request-Headers,Authorization,Connection,Content-Type,Host,Origin,Referer,Token-Id,User-Agent,
-				X-Requested-With</param-value>
+				X-Requested-With
+			</param-value>
 		</init-param>
 		<init-param>
 			<param-name>cors.allowed.origins</param-name>

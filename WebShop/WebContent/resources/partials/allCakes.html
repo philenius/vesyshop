@@ -47,8 +47,8 @@
 					<td>{{ cake.price | currency: '€'}}</td>
 					<td>
 						<ul>
-							<li data-ng-repeat="ingredient in cakeVM.cake.ingredients">
-								{{ ingredient.name }}, {{ ingredient.amount}}
+							<li data-ng-repeat="ingredient in cake.ingredients">
+								{{ ingredient }}
 							</li>
 						</ul>
 					</td>

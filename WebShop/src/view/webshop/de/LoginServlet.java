@@ -57,11 +57,18 @@ public class LoginServlet extends HttpServlet {
 			
 			User foundUser = User.getByName(user, db);
 
-//			// Wrong password
+			// User does not exist
+			if (foundUser == null) {
+				resp.sendError(HttpServletResponse.SC_FORBIDDEN);
+				return;		
+			}
+			
+			// Wrong password
 			if (!foundUser.checkPw(password)){
 				resp.sendError(HttpServletResponse.SC_FORBIDDEN);
 				return;	
 			}
+
 			foundUser.session = JSID;
 			foundUser.updateSession(db);
 			

@@ -39,11 +39,16 @@ public class LogoutServlet extends HttpServlet {
 			Connector connector = new Connector();
 			MongoDatabase db = connector.getDatabase();
 
+			// Delete shopping cart
 			ShoppingCart cart = ShoppingCart.getBySessionId(JSID, db);
 			if (cart != null) {
-				User user = User.getBySID(JSID, db);
-				user.clearSession(db);
 				cart.delete(db);
+			}
+
+			// Remove session from user
+			User user = User.getBySID(JSID, db);
+			if (user != null) {
+				user.clearSession(db);				
 			}
 
 			// Destroys the session

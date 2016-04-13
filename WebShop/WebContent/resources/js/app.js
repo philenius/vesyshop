@@ -127,11 +127,10 @@ function HandleAllCakes ($http, $rootScope, baseURL) {
 	});
 
 	this.addToCart = function(cake) {
-		$rootScope.$broadcast('shop.addedCartItem');
 		var params = { cake: cake.name };
-
 		$http.post(baseURL + '/api/cart', params)
 		.then( function (result) {
+			$rootScope.$broadcast('shop.addedCartItem');
 			that.messageInfo = 'Added cake to shopping cart!';
 		}).catch( function (reason) {
 			that.messageError = 'The cake could not be added to the shopping cart!';
@@ -148,21 +147,27 @@ function HandleCart ($http, $rootScope, baseURL) {
 	this.cart = {};
 	this.cartItems = 0;
 
-	$http
-	.get(baseURL + '/api/cart')
-	.then(function (result) {
-		that.cart = result.data;
-		that.cartItems = result.data.count;
-	}).catch(function (result) {
-		that.messageError = 'Error: ' + result.status
-		+ ' ' + result.statusText;
-	});
+	var updateCart = function () {
+		$http
+		.get(baseURL + '/api/cart')
+		.then(function (result) {
+			that.cart = result.data;
+			that.cartItems = result.data.count;
+		}).catch(function (result) {
+			that.messageError = 'Error: ' + result.status
+			+ ' ' + result.statusText;
+		});		
+	}
+	
+	updateCart();
 
 	this.removeItem = function (cake) {
 		var params = { cake: cake.name };
 
 		$http.delete(baseURL + '/api/cart', {data: params })
 		.then( function (result) {
+			updateCart();
+			$rootScope.$broadcast('shop.addedCartItem');
 			that.messageInfo = 'Deleted cake from shopping cart!';
 		}).catch( function (reason) {
 			that.messageError = 'The cake could not be deleted from the shopping cart!';

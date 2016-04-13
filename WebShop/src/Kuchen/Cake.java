@@ -159,10 +159,9 @@ public class Cake {
 		String fileName = "cake" + String.valueOf(number) + ".png";
 		return fileName;
 	}
-	
 
 
-	 public void update(MongoDatabase db){ 
+	public void update(MongoDatabase db){ 
 		 Manager.update(collection, DbNames.fieldCacke.name.toString(), 
 				 this.name, DbNames.fieldCacke.Recept.toString(), this.recept.getDocument(), db);
 		 Manager.update(collection, DbNames.fieldCacke.name.toString(), 

@@ -144,6 +144,11 @@ public class Recept {
 		
 		if(doc == null){
 			System.out.println("Kein Rezept gefunden");
+			Ingridient zucker 			= new Ingridient("Zucker", 12, 13, DbNames.QuantityType.gram.toString());
+			
+			Recept ApfelkuchenRezept 	= new Recept(20, 200, "Rezept Apfelkuchen", asList(zucker));
+			
+			return ApfelkuchenRezept;
 		}
 				
 		return DocToRecept(doc, db);

@@ -18,6 +18,11 @@ app.config(function ($routeProvider) {
 		controller: 'CartController',
 		templateUrl: 'partials/cart.html'
 	})
+	.when('/checkout',
+	{
+		controller: 'CheckoutController',
+		templateUrl: 'partials/checkout.html'
+	})
 	.otherwise({ redirectTo: '/' });
 });
 
@@ -29,12 +34,16 @@ app.controller('displayAllCakes', function ($scope, $http, $rootScope, baseURL) 
 	$scope.cakeVM = new HandleAllCakes($http, $rootScope, baseURL);
 });
 
-app.controller('CartController', function ($scope, $http, baseURL) {
-	$scope.cartVM = new HandleCart($http, baseURL);
+app.controller('CartController', function ($scope, $http, $rootScope, baseURL) {
+	$scope.cartVM = new HandleCart($http, $rootScope, baseURL);
 });
 
 app.controller('RegisterController', function ($scope, $http, baseURL) {
 	$scope.registerVM = new HandleRegistration($scope, $http, baseURL);
+});
+
+app.controller('CheckoutController', function ($scope, $http, baseURL) {
+	$scope.checkoutVM = new HandleCheckout($scope, $http, baseURL);
 });
 
 function HandleStatusBar ($scope, $http, $rootScope, baseURL) {
@@ -130,7 +139,7 @@ function HandleAllCakes ($http, $rootScope, baseURL) {
 	}
 }
 
-function HandleCart ($http, baseURL) {
+function HandleCart ($http, $rootScope, baseURL) {
 	var that = this;
 
 	var messageError = null;
@@ -195,4 +204,9 @@ function HandleRegistration ($scope, $http, baseURL) {
 	$scope.$on('shop.loggedOut', function(event) {
 		that.loggedIn = false;
 	});
+}
+
+function HandleCheckout($scope, $http, baseURL) {
+	var that = this;
+	this.checkedOut = true;
 }

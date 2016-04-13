@@ -190,6 +190,9 @@ public class ShoppingCart {
 	 * @return Returns this as a JSON string.
 	 */
 	public String toJSON() {
+		
+		calculatePrice();
+		
 		String json = "{";
 		json += "\"price\":\"" + this.price + "\",";
 		json += "\"count\":\"" + this.cakes.size() + "\",";

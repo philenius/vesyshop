@@ -53,13 +53,15 @@ public class User {
 		if(this.cart == null){
 			doc = new Document("name", name)
 					.append("password", password)
-					.append("cart", "").
-					append("session", this.session);
+					.append("cart", "")
+					.append("session", this.session);
 		}
-		
+		else {
 		doc = new Document("name", name)
 				.append("password", password)
-				.append("cart", this.cart.getDocument()).append("session", this.session);
+				.append("cart", this.cart.getDocument())
+				.append("session", this.session);
+		}
 		return doc;
 	}
 	

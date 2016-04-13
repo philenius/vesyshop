@@ -195,6 +195,23 @@ public class Recept {
 		
 		return doc;
 	}
-	
-	
+
+	/**
+	 * Transforms of the list of ingredients of this recipe into a valid JSON array.
+	 * 
+	 * @return The JSON array of ingredients .
+	 */
+	public String ingredientListToJSON() {
+		String json = "[";
+		for (int i = 0; i < this.ingridients.size(); i++) {
+			json += "\"" + (this.ingridients.get(i).name) + "\"";
+
+			if (i == (this.ingridients.size() - 1)) {
+				continue;
+			}
+			json += ",";
+		}
+		json += "]";
+		return json;
+	}
 }

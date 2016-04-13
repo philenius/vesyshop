@@ -143,7 +143,8 @@ public class Cake {
 		String json = "{";
 		json += "\"name\":\"" + this.name + "\",";
 		json += "\"price\":\"" + this.price + "\",";
-		json += "\"image\":\"" + this.image + "\"";
+		json += "\"image\":\"" + this.image + "\",";
+		json += "\"ingredients\":" + this.recept.ingredientListToJSON();
 		json += "}";
 		return json;
 	}

@@ -52,8 +52,6 @@ public class Manager {
 		
 		FindIterable<Document> iterable = null;
 		
-		
-		
 		try {
 			//System.out.println("try to get documents...");
 			if(field == null && value == null){

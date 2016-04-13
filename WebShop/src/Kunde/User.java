@@ -53,7 +53,7 @@ public class User {
 		if(this.cart == null){
 			doc = new Document("name", name)
 					.append("password", password)
-					.append("cart", "")
+					.append("cart", null)
 					.append("session", this.session);
 		}
 		else {
@@ -81,10 +81,18 @@ public class User {
 	
 	public static User DocToUser(Document doc, MongoDatabase db){
 		
-		return new User(doc.getString("id"),
+		if(doc.get("cart") == null){
+			return new  User(doc.getString("name"),
+				doc.getString("password"));
+		}
+		else {
+			return new User(doc.getString("id"),
 				doc.getString("name"),
 				doc.getString("password"),
 				ShoppingCart.docToCart((Document)doc.get("cart"), db));
+		}
+		
+		
 	}
 	
 	public static User DocToUser( MongoDatabase db, Object doc){

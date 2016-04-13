@@ -71,6 +71,10 @@ public class User {
 		Manager.insertDocument(doc, DbNames.collection.USERS.toString(), db);
 	}
 	
+	public void updateSession(MongoDatabase db){
+		Manager.update(collection, "name", this.name, "session", this.session, db);
+	}
+	
 	public void updateCart(MongoDatabase db){
 		Manager.update(collection, "name", this.name, "cart", this.cart.getDocument(), db);
 	}

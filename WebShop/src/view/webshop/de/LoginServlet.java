@@ -63,7 +63,7 @@ public class LoginServlet extends HttpServlet {
 				return;	
 			}
 			foundUser.session = JSID;
-			foundUser.save(db);
+			foundUser.updateSession(db);
 			
 			resp.setStatus(HttpServletResponse.SC_OK);
 			connector.close();

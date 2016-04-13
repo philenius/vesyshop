@@ -10,6 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.mongodb.client.MongoDatabase;
+
+import Connection.Connector;
+
 public class LoginServlet extends HttpServlet {
 
 	/**
@@ -27,10 +31,14 @@ public class LoginServlet extends HttpServlet {
 	 */
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String jsonData = HelperClass.ReadJSONPostData(req);
 
 		try {
+			String jsonData = HelperClass.ReadJSONPostData(req);
 			JSONObject jsonObject = new JSONObject(jsonData);
+
+			// Creates session if there is none
+			String JSID = req.getSession().getId();
+
 			String user = jsonObject.getString("user");
 			String password = jsonObject.getString("password");
 
@@ -39,15 +47,26 @@ public class LoginServlet extends HttpServlet {
 				resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
 				return;
 			}
-
 			System.out.println("user: " + user);
 			System.out.println("password: " + password);
+			System.out.println("JSID: " + JSID);
 			
-			String JSID = req.getSession().getId();
+			Connector connector = new Connector();
+			MongoDatabase db = connector.getDatabase();
+			
+			// TODO: User foundUser = User.getByName(user, db) throws NullPointerException;
 
-			// TODO: Check user and pw in DB and connect JSID
-
+//			User foundUser = User.getByName(user, db);
+//			// Wrong password
+//			if (!foundUser.checkPw(password)){
+//				resp.sendError(HttpServletResponse.SC_FORBIDDEN);
+//				return;	
+//			}
+//			foundUser.session = JSID;
+//			foundUser.save(db);
+			
 			resp.setStatus(HttpServletResponse.SC_OK);
+			connector.close();
 			return;
 		} catch (JSONException ex) {
 			System.out.println(ex);

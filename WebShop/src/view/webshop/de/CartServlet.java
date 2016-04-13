@@ -135,7 +135,6 @@ public class CartServlet extends HttpServlet {
 				return;
 			}
 			cart.removeCakeByName(cakeName,db);
-			//wird geupdated //cart.save(db);
 
 			resp.setStatus(HttpServletResponse.SC_OK);
 			connector.close();

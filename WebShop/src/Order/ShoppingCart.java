@@ -34,7 +34,24 @@ public class ShoppingCart {
 		this.session = _session;
 	}
 	
+	public void addCakeByName(String cakeName, MongoDatabase db){
+		Cake newCake = Cake.getByName(cakeName, db);
+		this.addCacke(newCake);
+	}
 	
+	public boolean removeCakeByName(String cakeName){
+		for(Cake c : this.cakes){
+			if(c.name.equals(cakeName)){
+				cakes.remove(c);
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public void delete(MongoDatabase db){
+		Manager.deleteSingleObject(DbNames.collection.CARTS.toString(), "session", this.session, db);
+	}
 	
 	private void calculatePrice(){
 		

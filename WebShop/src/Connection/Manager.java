@@ -149,6 +149,12 @@ public class Manager {
 		System.out.println("INFO: \t"+rows +" row(s) modified.");
 	}
 	
+	public static void deleteSingleObject(String collection, String whereField, 
+			String whereValue, MongoDatabase db){
+		db.getCollection(collection).deleteOne(new Document(whereField,whereValue));
+		
+	}
+	
 	public static void deleteAllDocsIn(MongoDatabase db, String collection){
 		db.getCollection(collection).drop();
 	}

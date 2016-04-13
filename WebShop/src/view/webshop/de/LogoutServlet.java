@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import com.mongodb.client.MongoDatabase;
 
 import Connection.Connector;
+import Kunde.User;
 import Order.ShoppingCart;
 
 public class LogoutServlet extends HttpServlet {
@@ -40,8 +41,9 @@ public class LogoutServlet extends HttpServlet {
 
 			ShoppingCart cart = ShoppingCart.getBySessionId(JSID, db);
 			if (cart != null) {
-				// TDODO: Remove session ID from user in DB: User user = User.getBySID(JSID, db); user.session = null; user.save(db);
-				// TODO: Remove user and cart from DB: cart.delete();
+				User user = User.getBySID(JSID, db);
+				user.clearSession(db);
+				cart.delete(db);
 			}
 
 			// Destroys the session

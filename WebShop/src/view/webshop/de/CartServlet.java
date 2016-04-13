@@ -90,7 +90,7 @@ public class CartServlet extends HttpServlet {
 			if (cart == null) {
 				cart = new ShoppingCart(new ArrayList<Cake>(), JSID);
 			}
-			// TODO: cart.addCakeByName(cakeName);
+			cart.addCakeByName(cakeName, db);
 			cart.save(db);
 
 			resp.setStatus(HttpServletResponse.SC_CREATED);
@@ -134,7 +134,7 @@ public class CartServlet extends HttpServlet {
 				resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
 				return;
 			}
-			// TODO: cart.removeCakeByName(cakeName);
+			cart.removeCakeByName(cakeName);
 			cart.save(db);
 
 			resp.setStatus(HttpServletResponse.SC_OK);

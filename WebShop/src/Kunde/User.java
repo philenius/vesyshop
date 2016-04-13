@@ -20,15 +20,20 @@ public class User {
 	protected String id;
 	protected String name;
 	protected String password;
-	public ShoppingCart cart;
+	public ShoppingCart cart = null;
 	protected static String collection = DbNames.collection.USERS.toString();
-	public String session;
+	public String session = null;
 	
 	public User(String _name, String _password, ShoppingCart _cart){
 		this.name = _name;
 		this.password = _password;
 		this.cart = _cart;
 		this.session = _cart.session;
+	}
+	
+	public User(String _name, String _password){
+		this.name = _name;
+		this.password = _password;
 	}
 	
 	public User(String _id, String _name, String _password, ShoppingCart _cart){
@@ -104,10 +109,32 @@ public class User {
 		FindIterable<Document> docs = Manager.
 				getDocuments(DbNames.collection.USERS.toString(), "name", _name, db);
 		
+		if(docs.first() == null){
+			return null;
+		}
+		
 		User found = DocToUser(docs.first(), db);
 		
 		return found;
 		
+	}
+	
+	public void clearSession(MongoDatabase db){
+		Manager.update(collection, "session", this.session, "session", "", db);
+		this.session = null;
+
+	}
+
+	public static User getBySID(String jSID, MongoDatabase db) {
+		FindIterable<Document> docs;
+		docs = Manager.getDocuments("USERS", "session", jSID, db);
+		
+		if(docs.first() == null){
+			return null;
+		}
+		else {
+			return DocToUser(docs.first(), db);
+		}
 	}
 
 }

@@ -47,6 +47,14 @@ public class Cake {
 
 		calculatePrice();
 	}
+	
+	public static Cake getByName(String _name, MongoDatabase db){
+		FindIterable<Document> docs;
+		docs = Manager.getDocuments(DbNames.collection.CAKES.toString(), 
+				DbNames.fieldCacke.name.toString(), _name, db);
+		
+		return Cake.DocToCake(docs.first(),db);
+	}
 
 	private void calculatePrice() {
 
@@ -151,9 +159,15 @@ public class Cake {
 		String fileName = "cake" + String.valueOf(number) + ".png";
 		return fileName;
 	}
+	
 
-	/*
-	 * public void update(){ //TODO }
-	 */
+
+	 public void update(MongoDatabase db){ 
+		 Manager.update(collection, DbNames.fieldCacke.name.toString(), 
+				 this.name, DbNames.fieldCacke.Recept.toString(), this.recept.getDocument(), db);
+		 Manager.update(collection, DbNames.fieldCacke.name.toString(), 
+				 this.name, DbNames.fieldCacke.name.toString(), this.name, db);
+	 }
+	 
 
 }

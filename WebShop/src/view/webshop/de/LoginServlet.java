@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import com.mongodb.client.MongoDatabase;
 
 import Connection.Connector;
+import Kunde.User;
 
 public class LoginServlet extends HttpServlet {
 
@@ -54,16 +55,15 @@ public class LoginServlet extends HttpServlet {
 			Connector connector = new Connector();
 			MongoDatabase db = connector.getDatabase();
 			
-			// TODO: User foundUser = User.getByName(user, db) throws NullPointerException;
+			User foundUser = User.getByName(user, db);
 
-//			User foundUser = User.getByName(user, db);
 //			// Wrong password
-//			if (!foundUser.checkPw(password)){
-//				resp.sendError(HttpServletResponse.SC_FORBIDDEN);
-//				return;	
-//			}
-//			foundUser.session = JSID;
-//			foundUser.save(db);
+			if (!foundUser.checkPw(password)){
+				resp.sendError(HttpServletResponse.SC_FORBIDDEN);
+				return;	
+			}
+			foundUser.session = JSID;
+			foundUser.save(db);
 			
 			resp.setStatus(HttpServletResponse.SC_OK);
 			connector.close();

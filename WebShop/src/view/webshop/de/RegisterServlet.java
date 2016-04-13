@@ -47,9 +47,8 @@ public class RegisterServlet extends HttpServlet {
 			Connector connector = new Connector();
 			MongoDatabase db = connector.getDatabase();
 			
-			// TODO: User newUser = new User(user, password, shoppingCart); -> no ShoppingCart shall be required
-//			User newUser = new User(user, password);
-//			newUser.save(db);
+			User newUser = new User(user, password);
+			newUser.save(db);
 			
 			resp.setStatus(HttpServletResponse.SC_OK);
 			connector.close();

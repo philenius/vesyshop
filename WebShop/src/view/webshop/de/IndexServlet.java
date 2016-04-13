@@ -2,13 +2,10 @@ package view.webshop.de;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import com.mongodb.client.MongoDatabase;
 
 import Connection.Connector;
@@ -30,16 +27,15 @@ public class IndexServlet extends HttpServlet {
 			throws javax.servlet.ServletException, java.io.IOException {
 
 		// Creates session if there is none
-		HttpSession session = req.getSession();
-		String JSID  = session.getId();
-		
+		String SID = HelperClass.addSessionCookie(req, resp);
+
 		Connector connector = new  Connector();
 		MongoDatabase db = connector.getDatabase();
-		ShoppingCart cart = ShoppingCart.getBySessionId(JSID, db);
+		ShoppingCart cart = ShoppingCart.getBySessionId(SID, db);
 		
 		// User does not have a cart yet
 		if (cart == null) {
-			ShoppingCart newCart = new ShoppingCart(new ArrayList<Cake>(), JSID);
+			ShoppingCart newCart = new ShoppingCart(new ArrayList<Cake>(), SID);
 			newCart.save(db);
 		}
 

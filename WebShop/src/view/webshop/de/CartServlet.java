@@ -32,15 +32,15 @@ public class CartServlet extends HttpServlet {
 
 		try {
 			// Creates session if there is none
-			String JSID = req.getSession().getId();
+			String SID = HelperClass.addSessionCookie(req, resp);
 
 			Connector connector = new Connector();
 			MongoDatabase db = connector.getDatabase();
-			ShoppingCart cart = ShoppingCart.getBySessionId(JSID, db);
+			ShoppingCart cart = ShoppingCart.getBySessionId(SID, db);
 
 			// User does not have a cart yet
 			if (cart == null) {
-				cart = new ShoppingCart(new ArrayList<Cake>(), JSID);
+				cart = new ShoppingCart(new ArrayList<Cake>(), SID);
 				cart.save(db);
 			}
 
@@ -72,7 +72,7 @@ public class CartServlet extends HttpServlet {
 			JSONObject jsonObject = new JSONObject(jsonData);
 
 			// Creates session if there is none
-			String JSID = req.getSession().getId();
+			String SID = HelperClass.addSessionCookie(req, resp);
 
 			String cakeName = jsonObject.getString("cake");
 
@@ -84,11 +84,11 @@ public class CartServlet extends HttpServlet {
 
 			Connector connector = new Connector();
 			MongoDatabase db = connector.getDatabase();
-			ShoppingCart cart = ShoppingCart.getBySessionId(JSID, db);
+			ShoppingCart cart = ShoppingCart.getBySessionId(SID, db);
 
 			// User does not have a cart yet
 			if (cart == null) {
-				cart = new ShoppingCart(new ArrayList<Cake>(), JSID);
+				cart = new ShoppingCart(new ArrayList<Cake>(), SID);
 			}
 			cart.addCakeByName(cakeName, db);
 			cart.save(db);
@@ -115,7 +115,7 @@ public class CartServlet extends HttpServlet {
 			JSONObject jsonObject = new JSONObject(jsonData);
 
 			// Creates session if there is none
-			String JSID = req.getSession().getId();
+			String SID = HelperClass.addSessionCookie(req, resp);
 
 			String cakeName = jsonObject.getString("cake");
 
@@ -127,7 +127,7 @@ public class CartServlet extends HttpServlet {
 
 			Connector connector = new Connector();
 			MongoDatabase db = connector.getDatabase();
-			ShoppingCart cart = ShoppingCart.getBySessionId(JSID, db);
+			ShoppingCart cart = ShoppingCart.getBySessionId(SID, db);
 
 			// User does not have a cart yet
 			if (cart == null) {

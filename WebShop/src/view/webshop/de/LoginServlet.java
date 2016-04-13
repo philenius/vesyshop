@@ -38,7 +38,7 @@ public class LoginServlet extends HttpServlet {
 			JSONObject jsonObject = new JSONObject(jsonData);
 
 			// Creates session if there is none
-			String JSID = req.getSession().getId();
+			String SID = HelperClass.addSessionCookie(req, resp);
 
 			String user = jsonObject.getString("user");
 			String password = jsonObject.getString("password");
@@ -48,9 +48,6 @@ public class LoginServlet extends HttpServlet {
 				resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
 				return;
 			}
-			System.out.println("user: " + user);
-			System.out.println("password: " + password);
-			System.out.println("JSID: " + JSID);
 			
 			Connector connector = new Connector();
 			MongoDatabase db = connector.getDatabase();
@@ -69,7 +66,7 @@ public class LoginServlet extends HttpServlet {
 				return;	
 			}
 
-			foundUser.session = JSID;
+			foundUser.session = SID;
 			foundUser.updateSession(db);
 			
 			resp.setStatus(HttpServletResponse.SC_OK);

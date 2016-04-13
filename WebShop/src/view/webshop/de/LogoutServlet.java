@@ -34,19 +34,19 @@ public class LogoutServlet extends HttpServlet {
 
 		try {
 			// Creates session if there is none
-			String JSID = req.getSession().getId();
+			String SID = HelperClass.addSessionCookie(req, resp);
 
 			Connector connector = new Connector();
 			MongoDatabase db = connector.getDatabase();
 
 			// Delete shopping cart
-			ShoppingCart cart = ShoppingCart.getBySessionId(JSID, db);
+			ShoppingCart cart = ShoppingCart.getBySessionId(SID, db);
 			if (cart != null) {
 				cart.delete(db);
 			}
 
 			// Remove session from user
-			User user = User.getBySID(JSID, db);
+			User user = User.getBySID(SID, db);
 			if (user != null) {
 				user.clearSession(db);				
 			}

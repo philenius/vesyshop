@@ -31,6 +31,8 @@ public class AllCakesServlet extends HttpServlet {
 			throws javax.servlet.ServletException, java.io.IOException {
 
 		try {
+			HelperClass.addSessionCookie(req, resp);
+			
 			resp.setContentType("application/json");
 			
 			Connector c = new Connector();

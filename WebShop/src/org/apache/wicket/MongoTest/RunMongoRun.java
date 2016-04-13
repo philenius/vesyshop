@@ -47,6 +47,12 @@ public class RunMongoRun {
 		kaese.save(db);
 		Ingridient apfel			= new Ingridient("Aepfel", 3, 700, DbNames.QuantityType.gram.toString());
 		apfel.save(db);
+		Ingridient schokolade		= new Ingridient("Schokolade", 2, 100, DbNames.QuantityType.gram.toString());
+		schokolade.save(db);
+		Ingridient butter 			= new Ingridient("Butter", 3, 250, DbNames.QuantityType.gram.toString());
+		butter.save(db);
+		Ingridient milch			= new Ingridient("Milch", 3, 300, DbNames.QuantityType.ml.toString());
+		milch.save(db);
 		
 		Recept ZitronenkuchenRezept = new Recept(20, 200, "Rezept für Zitronenkuchen", asList(zucker, zitronen, mehl));
 		ZitronenkuchenRezept.save(db);
@@ -67,6 +73,16 @@ public class RunMongoRun {
 		KaeseKuchenRezept.save(db);
 		Cake KaeseKuchen			= new Cake(KaeseKuchenRezept, "Kaesekuchen");
 		KaeseKuchen.save(db);		
+		
+		Recept SchokoKuchenRezept 	= new Recept(15, 120, "Rezept für Schokokuchen", asList(zucker, schokolade));
+		SchokoKuchenRezept.save(db);
+		Cake SchokoKuchen			= new Cake(SchokoKuchenRezept, "Schokokuchen");
+		SchokoKuchen.save(db);
+		
+		Recept StreuselKuchenRezept = new Recept(15, 120, "Rezept für Streuselkuchen", asList(zucker, milch, butter));
+		StreuselKuchenRezept.save(db);
+		Cake StreuselKuchen			= new Cake(StreuselKuchenRezept, "Streuselkuchen");
+		StreuselKuchen.save(db);	
 		
 //		Ingridient.getAll(db);
 //		Recept.getAll(db);
